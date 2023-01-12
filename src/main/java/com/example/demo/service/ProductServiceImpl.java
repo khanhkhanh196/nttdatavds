@@ -9,7 +9,8 @@ import com.example.demo.dao.daointerface.ProductDAO;
 import com.example.demo.entity.Product;
 import com.example.demo.service.serviceinterface.ProductService;
 
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {

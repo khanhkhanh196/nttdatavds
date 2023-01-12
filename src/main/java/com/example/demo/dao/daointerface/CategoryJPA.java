@@ -3,9 +3,9 @@ package com.example.demo.dao.daointerface;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entity.Brand;
+import com.example.demo.entity.Category;
 
 @Repository
-public interface BrandJPA  extends JpaRepository<Brand, Integer>{
+public interface CategoryJPA extends JpaRepository<Category, Integer> {
 
 }

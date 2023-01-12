@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.converter.ProductDTOConverter;
-import com.example.demo.entity.Brand;
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.exception.ProductNotFoundException;
-import com.example.demo.service.serviceinterface.BrandService;
+import com.example.demo.service.serviceinterface.CategoryService;
 import com.example.demo.service.serviceinterface.ProductService;
 
 @RestController
@@ -31,36 +31,36 @@ public class ProductController {
 	private ProductService productService;
 
 	@Autowired
-	private BrandService service;
+	private CategoryService service;
 
 	@Autowired
 	private ProductDTOConverter converter;
 
-	@GetMapping("/products")
-	public List<ProductDTO> getAllProduct() {
-		List<Product> allProduct = productService.getAllProduct();
-		List<ProductDTO> productDTOList = new ArrayList<>();
-		for (Product product : allProduct) {
-			ProductDTO productDTO = converter.convertToProductDTO(product);
-			productDTOList.add(productDTO);
-		}
-		return productDTOList;
-	}
-
-	@GetMapping("/products/{id}")
-	public ProductDTO getSingleProduct(@PathVariable int id) {
-		Product product = productService.getProduct(id);
-		if (product == null) {
-			throw new ProductNotFoundException("Product not found " + id);
-		}
-		ProductDTO productDTO = converter.convertToProductDTO(product);
-		return productDTO;
-	}
+//	@GetMapping("/products")
+//	public List<ProductDTO> getAllProduct() {
+//		List<Product> allProduct = productService.getAllProduct();
+//		List<ProductDTO> productDTOList = new ArrayList<>();
+//		for (Product product : allProduct) {
+//			ProductDTO productDTO = converter.convertToProductDTO(product);
+//			productDTOList.add(productDTO);
+//		}
+//		return productDTOList;
+//	}
+//
+//	@GetMapping("/products/{id}")
+//	public ProductDTO getSingleProduct(@PathVariable int id) {
+//		Product product = productService.getProduct(id);
+//		if (product == null) {
+//			throw new ProductNotFoundException("Product not found " + id);
+//		}
+//		ProductDTO productDTO = converter.convertToProductDTO(product);
+//		return productDTO;
+//	}
 
 	@PutMapping("/products/{id}")
 	public void updateProduct(@PathVariable int id, @Validated @RequestBody ProductDTO productDTO) {
 		Product existedProduct = productService.getProduct(id);
-		if (existedProduct != null && existedProduct.getId() == productDTO.getId()) {
+		if (existedProduct != null && existedProduct.getProductId() == productDTO.getId()) {
 			Product product = null;
 			product = converter.convertProductDtoToEntity(productDTO);
 			productService.saveProduct(product);
@@ -69,20 +69,20 @@ public class ProductController {
 		}
 	}
 
-	@PostMapping("/products")
-	public ResponseEntity<String> addNewProduct(@RequestBody ProductDTO productDTO) {
-		Product product = null;
-		product = converter.convertProductDtoToEntity(productDTO);
-		product.setId(0);
-		int brandId = productDTO.getBrand();
-		Brand brand = service.getBrand(brandId);
-		if (brand == null) {
-			product.setBrand(brand);
-		}
-		productService.saveProduct(product);
-		
-		return new ResponseEntity<>(HttpStatus.ACCEPTED);
-	}
+//	@PostMapping("/products")
+//	public ResponseEntity<String> addNewProduct(@RequestBody ProductDTO productDTO) {
+//		Product product = null;
+//		product = converter.convertProductDtoToEntity(productDTO);
+//		product.setProductId(0);
+//		int brandId = productDTO.getBrand();
+//		Category category = service.getCategory(brandId);
+//		if (category == null) {
+//			product.setCategory(category);
+//		}
+//		productService.saveProduct(product);
+//
+//		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//	}
 
 	@DeleteMapping("/products/{id}")
 	public void deleteProduct(@PathVariable int id) {

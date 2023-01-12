@@ -7,18 +7,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Review;
-import com.example.demo.service.serviceinterface.ReviewService;
+import com.example.demo.entity.Category;
+import com.example.demo.service.serviceinterface.CategoryService;
 
 @RestController
 @RequestMapping("/rest")
-public class ReviewController {
-	@Autowired
-	private ReviewService reviewService;
+public class CategoryController {
 
-	@PostMapping("/reviews")
-	public void addNewReview(@Validated @RequestBody Review review) {
-		review.setId(0);
-		reviewService.saveReview(review);
+	@Autowired
+	private CategoryService categoryService;
+
+	@PostMapping("/categories")
+	public void addNewProduct(@Validated @RequestBody Category category) {
+		category.setCategoryId(0);
+		categoryService.saveCategory(category);
 	}
 }

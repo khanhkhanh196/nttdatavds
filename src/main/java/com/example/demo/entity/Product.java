@@ -1,18 +1,9 @@
 package com.example.demo.entity;
 
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
@@ -24,26 +15,32 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "product_id")
-	private int id;
+	private int productId;
 
 	@Column(name = "product_name")
 	private String productName;
 
-	@Column(name = "product_description")
-	private String productDescription;
+	@Column(name = "short_desc")
+	private String shortDesc;
 
 	@Column(name = "stock")
 	private int stock;
 
-	@Column(name = "sold_quantity")
-	private int soldQuantity;
+	@Column(name = "sold")
+	private int sold;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE,
-			CascadeType.REFRESH })
-	@JoinColumn(name = "brand_detail_id")
-	private Brand brand;
+	@Column(name = "price")
+	private double price;
 
-	@OneToMany(targetEntity = Review.class, mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-	private List<Review> reviews;
+	@ManyToMany(mappedBy = "productsSet")
+	Set<Category> categoriesSet;
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "product_file",
+			joinColumns = @JoinColumn(name = "product_reference_file_id"),
+			inverseJoinColumns = @JoinColumn(name = "file_reference_product_id")
+	)
+	private List<File> files;
 
 }

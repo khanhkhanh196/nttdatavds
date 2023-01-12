@@ -7,19 +7,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Brand;
-import com.example.demo.service.serviceinterface.BrandService;
+import com.example.demo.entity.File;
+import com.example.demo.service.serviceinterface.FileService;
 
 @RestController
 @RequestMapping("/rest")
-public class BrandController {
-
+public class FileController {
 	@Autowired
-	private BrandService brandService;
+	private FileService fileService;
 
-	@PostMapping("/brands")
-	public void addNewProduct(@Validated @RequestBody Brand brand) {
-		brand.setId(0);
-		brandService.saveBrand(brand);
+	@PostMapping("/files")
+	public void addNewReview(@Validated @RequestBody File file) {
+		file.setFileId(0);
+		fileService.saveFile(file);
 	}
 }

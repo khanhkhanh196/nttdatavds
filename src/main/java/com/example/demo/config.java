@@ -30,93 +30,93 @@ public class config {
     @Autowired
     Environment env;
 
-    @Bean
-    public DataSource dataSource() {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//    @Bean
+//    public DataSource dataSource() {
+//        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//
+//        try {
+//            dataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//        } catch (PropertyVetoException e) {
+//            e.printStackTrace();
+//        }
+//
+//        dataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+//        dataSource.setUser(env.getProperty("jdbc.user"));
+//        dataSource.setPassword(env.getProperty("jdbc.password"));
+//
+//        dataSource.setInitialPoolSize(convertToInt("connection.pool.initialPoolSize"));
+//        dataSource.setMinPoolSize(convertToInt("connection.pool.minPoolSize"));
+//        dataSource.setMaxPoolSize(convertToInt("connection.pool.maxPoolSize"));
+//        dataSource.setMaxIdleTime(convertToInt("connection.pool.maxIdleTime"));
+//
+//        return dataSource;
+//    }
 
-        try {
-            dataSource.setDriverClass(env.getProperty("jdbc.driver"));
-        } catch (PropertyVetoException e) {
-            e.printStackTrace();
-        }
-
-        dataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        dataSource.setUser(env.getProperty("jdbc.user"));
-        dataSource.setPassword(env.getProperty("jdbc.password"));
-
-        dataSource.setInitialPoolSize(convertToInt("connection.pool.initialPoolSize"));
-        dataSource.setMinPoolSize(convertToInt("connection.pool.minPoolSize"));
-        dataSource.setMaxPoolSize(convertToInt("connection.pool.maxPoolSize"));
-        dataSource.setMaxIdleTime(convertToInt("connection.pool.maxIdleTime"));
-
-        return dataSource;
-    }
-
-    @Bean
-    public DataSource securityDataSource() {
-        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
-
-        try {
-            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-        } catch (PropertyVetoException e) {
-            e.printStackTrace();
-        }
-
-        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url.security"));
-        securityDataSource.setUser(env.getProperty("jdbc.user"));
-        securityDataSource.setPassword(env.getProperty("jdbc.password"));
-
-        securityDataSource.setInitialPoolSize(convertToInt("connection.pool.initialPoolSize"));
-        securityDataSource.setMinPoolSize(convertToInt("connection.pool.minPoolSize"));
-        securityDataSource.setMaxPoolSize(convertToInt("connection.pool.maxPoolSize"));
-        securityDataSource.setMaxIdleTime(convertToInt("connection.pool.maxIdleTime"));
-
-        return securityDataSource;
-    }
+//    @Bean
+//    public DataSource securityDataSource() {
+//        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
+//
+//        try {
+//            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//        } catch (PropertyVetoException e) {
+//            e.printStackTrace();
+//        }
+//
+//        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url.security"));
+//        securityDataSource.setUser(env.getProperty("jdbc.user"));
+//        securityDataSource.setPassword(env.getProperty("jdbc.password"));
+//
+//        securityDataSource.setInitialPoolSize(convertToInt("connection.pool.initialPoolSize"));
+//        securityDataSource.setMinPoolSize(convertToInt("connection.pool.minPoolSize"));
+//        securityDataSource.setMaxPoolSize(convertToInt("connection.pool.maxPoolSize"));
+//        securityDataSource.setMaxIdleTime(convertToInt("connection.pool.maxIdleTime"));
+//
+//        return securityDataSource;
+//    }
 
 
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-    
-    public int convertToInt(String prop) {
-        int i = Integer.parseInt(env.getProperty(prop));
-        return i;
-    }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean em
-                = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan("com.example.demo.entity");
+//    public int convertToInt(String prop) {
+//        int i = Integer.parseInt(env.getProperty(prop));
+//        return i;
+//    }
 
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean em
+//                = new LocalContainerEntityManagerFactoryBean();
+//        em.setDataSource(dataSource());
+//        em.setPackagesToScan("com.example.demo.entity");
+//
+//        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        em.setJpaVendorAdapter(vendorAdapter);
+//        em.setJpaProperties(additionalProperties());
+//
+//        return em;
+//    }
 
-        return em;
-    }
+//    @Bean
+//    public PlatformTransactionManager transactionManager() {
+//        JpaTransactionManager transactionManager = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+//
+//        return transactionManager;
+//    }
+//
+//    @Bean
+//    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+//        return new PersistenceExceptionTranslationPostProcessor();
+//    }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
-
-        return transactionManager;
-    }
-
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
-
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("hibernate.ddl-auto", "create");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-
-        return properties;
-    }
+//    Properties additionalProperties() {
+//        Properties properties = new Properties();
+//        properties.setProperty("hibernate.ddl-auto", "create");
+//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+//
+//        return properties;
+//    }
 }
