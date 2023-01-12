@@ -7,4 +7,6 @@ public interface CategoryDAO {
 	
 	public void saveCategory(Category category);
 
+	public void deleteCategory(int id);
+
 }

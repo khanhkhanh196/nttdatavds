@@ -1,24 +1,16 @@
 package com.example.demo.restapi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ProductDTO;
-import com.example.demo.dto.converter.ProductDTOConverter;
-import com.example.demo.entity.Category;
+import com.example.demo.dto.converter.DTOConverter;
 import com.example.demo.entity.Product;
 import com.example.demo.exception.ProductNotFoundException;
 import com.example.demo.service.serviceinterface.CategoryService;
@@ -34,7 +26,7 @@ public class ProductController {
 	private CategoryService service;
 
 	@Autowired
-	private ProductDTOConverter converter;
+	private DTOConverter converter;
 
 //	@GetMapping("/products")
 //	public List<ProductDTO> getAllProduct() {

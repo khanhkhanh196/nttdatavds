@@ -1,11 +1,10 @@
 package com.example.demo.restapi;
 
+import com.example.demo.dto.CategoryDTO;
+import com.example.demo.dto.converter.DTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.Category;
 import com.example.demo.service.serviceinterface.CategoryService;
@@ -17,9 +16,18 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+	@Autowired
+	private DTOConverter converter;
+
 	@PostMapping("/categories")
-	public void addNewProduct(@Validated @RequestBody Category category) {
-		category.setCategoryId(0);
+	public void addNewCategory(@Validated @RequestBody CategoryDTO categoryDTO) {
+//		category.setCategoryId(0);
+		Category category = converter.convertCategoryDtoToEntity(categoryDTO);
 		categoryService.saveCategory(category);
+	}
+
+	@DeleteMapping("/categories/{id}")
+	public void deleteCategory(@PathVariable int id) {
+		categoryService.deleteCategory(id);
 	}
 }

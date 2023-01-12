@@ -22,5 +22,10 @@ public class CategoryServiceImpl implements CategoryService {
 	public void saveCategory(Category category) {
 		categoryDao.saveCategory(category);
 	}
-	
+
+	@Override
+	public void deleteCategory(int categoryId) {
+		categoryDao.deleteCategory(categoryId);
+	}
+
 }
