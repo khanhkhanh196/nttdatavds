@@ -13,14 +13,14 @@ public class ProductDTOConverter {
 	@Autowired
 	private ModelMapper modelMapper;
 
-//	public ProductDTO convertToProductDTO(Product product) {
-//		ProductDTO dto = modelMapper.map(product, ProductDTO.class);
-//		if (product != null) {
-//			dto.setBrand(product.getBrand().getId());
-//			dto.setReviews(product.getReviews());
-//		}
-//		return dto;
-//	}
+	public ProductDTO convertToProductDTO(Product product) {
+		ProductDTO dto = modelMapper.map(product, ProductDTO.class);
+		if (product != null) {
+			dto.setCategorySet(product.getCategoriesSet());
+			dto.setFiles(product.getFiles());
+		}
+		return dto;
+	}
 
 	public Product convertProductDtoToEntity(ProductDTO productDTO) {
 		Product product = modelMapper.map(productDTO, Product.class);

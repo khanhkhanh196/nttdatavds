@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.ToString;
 
@@ -32,8 +34,8 @@ public class Product {
 	@Column(name = "price")
 	private double price;
 
-	@ManyToMany(mappedBy = "productsSet")
-	Set<Category> categoriesSet;
+	@ManyToMany(mappedBy = "productsSet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	List<Category> categoriesSet;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(

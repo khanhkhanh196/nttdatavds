@@ -2,6 +2,7 @@ package com.example.demo.service.serviceinterface;
 
 import java.util.List;
 
+import com.example.demo.dto.ProductDTO;
 import com.example.demo.entity.Product;
 
 public interface ProductService {

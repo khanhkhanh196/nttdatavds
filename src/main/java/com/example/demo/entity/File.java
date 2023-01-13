@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
@@ -22,4 +24,8 @@ public class File {
 
 	@ManyToMany(mappedBy = "files")
 	private Set<Product> product;
+	@JsonIgnore
+	public void setProduct(Set<Product> product) {
+		this.product = product;
+	}
 }
