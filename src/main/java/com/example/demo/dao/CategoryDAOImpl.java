@@ -15,7 +15,12 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public Category getById(int id) {
-		return categoryJPA.findById(id).get();
+		return categoryJPA.findById(id).orElseThrow(() -> new CategoryNotFoundException("Not found category by id"));
+	}
+
+	@Override
+	public Category getByName(String name) {
+		return categoryJPA.findByCategoryName(name).orElseThrow(() -> new CategoryNotFoundException("Not found category by name"));
 	}
 
 	@Override

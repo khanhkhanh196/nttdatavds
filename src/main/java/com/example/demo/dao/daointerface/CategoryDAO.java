@@ -4,6 +4,8 @@ import com.example.demo.entity.Category;
 
 public interface CategoryDAO {
 	public Category getById(int id);
+
+	public Category getByName(String name);
 	
 	public void saveCategory(Category category);
 

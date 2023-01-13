@@ -34,4 +34,9 @@ public class DTOConverter {
 		return category;
 	}
 
+	public CategoryDTO convertToCategoryDTO(Category category) {
+		CategoryDTO dto = modelMapper.map(category, CategoryDTO.class);
+		return dto;
+	}
+
 }
