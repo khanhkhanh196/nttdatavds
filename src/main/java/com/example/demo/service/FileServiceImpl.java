@@ -22,15 +22,14 @@ import com.example.demo.entity.File;
 import com.example.demo.properties.FileStorageProperties;
 import com.example.demo.service.serviceinterface.FileService;
 @Service
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
-	@Autowired
-	private FileDAO fileDao;
-
+	private final FileDAO fileDao;
 	private final Path fileStorageLocation;
 
 	@Autowired
-	public FileServiceImpl(FileStorageProperties fileStorageProperties) {
+	public FileServiceImpl(FileStorageProperties fileStorageProperties, FileDAO fileDao) {
+		this.fileDao = fileDao;
 		this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
 		try {
 			Files.createDirectories(this.fileStorageLocation);
@@ -39,6 +38,7 @@ public class FileServiceImpl implements FileService{
 		}
 	}
 
+	@Override
 	public String storeFile(MultipartFile file,String fileName, String fileDownloadUri) {
 		try {
 			Matcher matcher = Regex.noSpecialChar.matcher(fileName);

@@ -1,45 +1,46 @@
 package com.example.demo;
 
 import com.example.demo.dao.FileDAOImpl;
+import com.example.demo.dao.daointerface.FileDAO;
 import com.example.demo.exception.FileStorageException;
 import com.example.demo.exception.MyFileNotFoundException;
 import com.example.demo.properties.FileStorageProperties;
 import com.example.demo.service.FileServiceImpl;
+import com.example.demo.service.serviceinterface.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
-@SpringBootTest
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-@AutoConfigureMockMvc
 public class FileServiceTest {
-    @InjectMocks
-    FileServiceImpl fileService = mock(FileServiceImpl.class);
-
-    FileStorageProperties filePro = mock(FileStorageProperties.class);
-    FileDAOImpl fileDAO = mock(FileDAOImpl.class);
-    MockMultipartFile file = mock(MockMultipartFile.class);
-
     private static final String DOWNLOAD_FILE = "/downloadFile/";
+
+    private FileService fileService;
+    private FileStorageProperties storageProperties;
+    private FileDAO fileDAO;
+    private MockMultipartFile file;
 
     @BeforeEach
     public void setup() {
+        fileDAO = mock(FileDAOImpl.class);
+        storageProperties = mock(FileStorageProperties.class);
+        when(storageProperties.getUploadDir()).thenReturn("test");
+        file = mock(MockMultipartFile.class);
+        fileService = new FileServiceImpl(storageProperties, fileDAO);
     }
+
     @Test
     void storeFileThrows() {
         String fileName = "ContainsSpecial*#.jpg";
-
         String fileDownloadUri = "download/jpg";
-        assertThrows(FileStorageException.class,() -> {
-            fileService.storeFile(file, fileName, fileDownloadUri);
-        });
+        assertThrows(FileStorageException.class,
+                () -> fileService.storeFile(file, fileName, fileDownloadUri));
     }
 
     @Test
