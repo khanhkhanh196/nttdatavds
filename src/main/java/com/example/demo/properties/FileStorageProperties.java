@@ -7,5 +7,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class FileStorageProperties {
     private String uploadDir;
-
 }

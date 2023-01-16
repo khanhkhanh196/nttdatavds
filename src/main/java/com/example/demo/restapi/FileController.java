@@ -3,11 +3,15 @@ package com.example.demo.restapi;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.example.demo.common.Constants;
+import com.example.demo.common.Regex;
+import com.example.demo.exception.FileStorageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +45,13 @@ public class FileController {
 	private static final String DOWNLOAD_FILE = "/downloadFile/";
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-	@PostMapping("/files")
-	public void addNewFile(@Validated @RequestBody File file) {
-		file.setFileId(0);
-		fileService.saveFile(file);
-	}
-
 	@Autowired
 	private FileServiceImpl fileStorageService;
 
 	@PostMapping("/uploadFiles")
 	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
 
-		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(Constants.REST_MAPPING + DOWNLOAD_FILE)
 				.path(fileName).toUriString();
@@ -89,5 +87,15 @@ public class FileController {
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
+	}
+
+	@PostMapping("/test-regex/{file}")
+	public void testRegex(@PathVariable("file") String file) {
+		Matcher matcher = Regex.noSpecialChar.matcher(file);
+		boolean inValidFileName = matcher.find();
+		// Check if the file's name contains invalid characters
+		if (inValidFileName) {
+			throw new FileStorageException("Sorry! Filename contains invalid path sequence ");
+		}
 	}
 }
