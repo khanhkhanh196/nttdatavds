@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,5 +26,5 @@ public class Category {
 			name = "category_product",
 			joinColumns = @JoinColumn(name = "category_reference_product_id"),
 			inverseJoinColumns = @JoinColumn(name = "product_references_category_id"))
-	Set<Product> productsSet;
+	List<Product> productsSet;
 }

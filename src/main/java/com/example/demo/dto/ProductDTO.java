@@ -16,6 +16,6 @@ public class ProductDTO {
 	private double price;
 	private int stock;
 	private int sold;
-	private List<Category> categorySet;
+	private List<Category> categoriesSet;
 	private List<File> files;
 }
