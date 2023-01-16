@@ -22,10 +22,11 @@ public class CategoryController {
 	private DTOConverter converter;
 
 	@PostMapping("/categories")
-	public void addNewCategory(@Validated @RequestBody CategoryDTO categoryDTO) {
+	public ResponseEntity addNewCategory(@Validated @RequestBody CategoryDTO categoryDTO) {
 //		category.setCategoryId(0);
 		Category category = converter.convertCategoryDtoToEntity(categoryDTO);
 		categoryService.saveCategory(category);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	@GetMapping("/categories/{id}")

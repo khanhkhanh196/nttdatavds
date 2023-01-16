@@ -24,16 +24,17 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
-	public void saveCategory(Category category) {
+	public int saveCategory(Category category) {
 		categoryJPA.save(category);
+		return 1;
 	}
 
 	@Override
-	public void deleteCategory(int id) {
+	public int deleteCategory(int id) {
 		categoryJPA.findById(id).map(category -> {
 			categoryJPA.deleteById(id);
-			return 0;
+			return 1;
 		}).orElseThrow(() -> new CategoryNotFoundException("Not found category by id"));
-
+		return 1;
 	}
 }

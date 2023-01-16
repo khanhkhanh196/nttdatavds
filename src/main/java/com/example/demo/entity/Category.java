@@ -20,6 +20,16 @@ public class Category {
 	@Column(name="slug")
 	private String slug;
 
+	public Category() {
+
+	}
+
+	public Category(int id, String name, String slug) {
+		this.categoryId = id;
+		this.categoryName = name;
+		this.slug = slug;
+	}
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "category_product",

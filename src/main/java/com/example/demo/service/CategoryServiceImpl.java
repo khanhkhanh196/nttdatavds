@@ -7,6 +7,12 @@ import com.example.demo.dao.daointerface.CategoryDAO;
 import com.example.demo.entity.Category;
 import com.example.demo.service.serviceinterface.CategoryService;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -24,13 +30,30 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void saveCategory(Category category) {
+	public int saveCategory(Category category) {
 		categoryDao.saveCategory(category);
+		String folder = "./uploads/" + category.getSlug();
+		try {
+
+			Path path = Paths.get(folder);
+
+			//java.nio.file.Files;
+			Files.createDirectories(path);
+
+			System.out.println("Directory is created!");
+
+		} catch (IOException e) {
+
+			System.err.println("Failed to create directory!" + e.getMessage());
+
+		}
+		return 1;
 	}
 
 	@Override
-	public void deleteCategory(int categoryId) {
+	public int deleteCategory(int categoryId) {
 		categoryDao.deleteCategory(categoryId);
+		return 1;
 	}
 
 }
