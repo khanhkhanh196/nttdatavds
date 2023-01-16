@@ -81,5 +81,11 @@
 				<version>8.5.13</version>
 			</plugin>
 		</plugins>
+
+		<testResources>
+			<testResource>
+				<directory>src/main</directory>
+			</testResource>
+		</testResources>
 	</build>
 </project>

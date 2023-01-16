@@ -39,14 +39,13 @@ import com.example.demo.service.serviceinterface.FileService;
 @RestController
 @RequestMapping(Constants.REST_MAPPING)
 public class FileController {
-	@Autowired
 	private FileService fileService;
-
+	@Autowired
+	public FileController(FileService fileService) {
+		this.fileService = fileService;
+	}
 	private static final String DOWNLOAD_FILE = "/downloadFile/";
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
-
-	@Autowired
-	private FileServiceImpl fileStorageService;
 
 	@PostMapping("/uploadFiles")
 	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
@@ -56,7 +55,7 @@ public class FileController {
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(Constants.REST_MAPPING + DOWNLOAD_FILE)
 				.path(fileName).toUriString();
 
-		fileStorageService.storeFile(file, fileName, fileDownloadUri);
+		fileService.storeFile(file, fileName, fileDownloadUri);
 
 		return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 	}
@@ -69,7 +68,7 @@ public class FileController {
 	@GetMapping(DOWNLOAD_FILE + "{fileName}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
 		// Load file as Resource
-		Resource resource = fileStorageService.loadFileAsResource(fileName);
+		Resource resource = fileService.loadFileAsResource(fileName);
 
 		// Try to determine file's content type
 		String contentType = null;

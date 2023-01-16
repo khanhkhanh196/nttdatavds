@@ -26,7 +26,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class FileServiceTest {
     private static final String DOWNLOAD_FILE = "/downloadFile/";
-
     private FileService fileService;
     private FileStorageProperties storageProperties;
     private FileDAO fileDAO;
