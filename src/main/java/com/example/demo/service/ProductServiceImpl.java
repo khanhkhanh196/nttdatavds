@@ -44,4 +44,9 @@ public class ProductServiceImpl implements ProductService {
 		productDao.deleteProduct(theId);
 	}
 
+	@Override
+	public List<Product> getProductByCategoryName(String name) {
+		return productDao.getAllProductByCategoryName(name);
+	}
+
 }

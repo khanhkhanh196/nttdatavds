@@ -35,7 +35,7 @@ public class Product {
 	@Column(name = "price")
 	private double price;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "category_product",
 			joinColumns = @JoinColumn(name = "product_references_category_id"),
