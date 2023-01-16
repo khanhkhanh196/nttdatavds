@@ -14,13 +14,23 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryDAO categoryDao;
 	
 	@Override
-	public Category getCategory(int theId) {
+	public Category getCategoryById(int theId) {
 		return categoryDao.getById(theId);
+	}
+
+	@Override
+	public Category getCategoryByName(String name) {
+		return categoryDao.getByName(name);
 	}
 
 	@Override
 	public void saveCategory(Category category) {
 		categoryDao.saveCategory(category);
 	}
-	
+
+	@Override
+	public void deleteCategory(int categoryId) {
+		categoryDao.deleteCategory(categoryId);
+	}
+
 }
