@@ -1,6 +1,8 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,6 +12,7 @@ import java.util.Set;
 @Table(name = "file")
 @Data
 @ToString
+@AllArgsConstructor
 public class File {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +22,8 @@ public class File {
 	private String file_name;
 	@Column(name = "url")
 	private String url;
+	@Column(name = "content_type")
+	private String contentType;
 
 	@ManyToMany(mappedBy = "files")
 	private Set<Product> product;
