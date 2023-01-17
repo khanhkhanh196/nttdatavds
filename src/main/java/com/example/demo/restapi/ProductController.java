@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.ProductDTO;
-import com.example.demo.dto.converter.ProductDTOConverter;
+import com.example.demo.dto.converter.DTOConverter;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
 import com.example.demo.exception.ProductNotFoundException;
@@ -29,7 +29,7 @@ public class ProductController {
 	private CategoryService service;
 
 	@Autowired
-	private ProductDTOConverter converter;
+	private DTOConverter converter;
 
 	@GetMapping("/products")
 	public List<ProductDTO> getAllProduct() {

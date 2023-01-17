@@ -21,7 +21,7 @@ public class Category {
 	@Column(name="slug")
 	private String slug;
 
-	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "category_product",
 			joinColumns = @JoinColumn(name = "category_reference_product_id"),
