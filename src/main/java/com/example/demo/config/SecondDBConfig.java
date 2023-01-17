@@ -15,13 +15,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "secondDbEntityManagerFactory",
         transactionManagerRef = "secondDbTransactionManager",
-        basePackages = {"com.example.demo.dao.seconddao"}
+        basePackages = {"com.example.demo.seconddb.dao"}
 )
 public class SecondDBConfig {
     @Bean(name = "secondDbDataSource")
@@ -33,11 +34,16 @@ public class SecondDBConfig {
     @Bean(name = "secondDbEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean secondDbEntityManagerFactory(EntityManagerFactoryBuilder builder,
                                                                        @Qualifier("secondDbDataSource") DataSource dataSource) {
-        return builder
+        LocalContainerEntityManagerFactoryBean em = builder
                 .dataSource(dataSource)
-                .packages("com.example.demo.entity")
+                .packages("com.example.demo.seconddb.entity")
                 .persistenceUnit("db2")
                 .build();
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        em.setJpaPropertyMap(properties);
+        return em;
     }
 
     @Bean(name = "secondDbTransactionManager")
