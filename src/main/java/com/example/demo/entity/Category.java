@@ -33,7 +33,7 @@ public class Category {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "category_product",
-			joinColumns = @JoinColumn(name = "category_reference_product_id"),
+			joinColumns = @JoinColumn(name = "category_references_product_id"),
 			inverseJoinColumns = @JoinColumn(name = "product_references_category_id"))
 	Set<Product> productsSet;
 }
