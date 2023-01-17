@@ -21,4 +21,5 @@ public interface ProductJPA extends JpaRepository<Product, Integer>{
             "WHERE category_name like :name%)", nativeQuery = true)
     public List<Product> getAllProductByCategoryName(@Param("name") String name);
 
+    List<Product> findByProductNameContaining(String productName);
 }
