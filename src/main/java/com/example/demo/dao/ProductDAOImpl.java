@@ -36,4 +36,10 @@ public class ProductDAOImpl implements ProductDAO {
 		productJpa.deleteById(theId);
 	}
 
+	@Override
+	public List<Product> getAllProductByCategoryName(String name) {
+		return productJpa.getAllProductByCategoryName(name);
+	}
+
+
 }

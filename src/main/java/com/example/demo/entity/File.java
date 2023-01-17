@@ -1,9 +1,12 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,5 +24,9 @@ public class File {
 	private String url;
 
 	@ManyToMany(mappedBy = "files")
-	private Set<Product> product;
+	private List<Product> product;
+	@JsonIgnore
+	public void setProduct(List<Product> product) {
+		this.product = product;
+	}
 }
