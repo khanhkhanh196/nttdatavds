@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.ToString;
 
@@ -32,8 +35,12 @@ public class Product {
 	@Column(name = "price")
 	private double price;
 
-	@ManyToMany(mappedBy = "productsSet")
-	Set<Category> categoriesSet;
+	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "category_product",
+			joinColumns = @JoinColumn(name = "product_references_category_id"),
+			inverseJoinColumns = @JoinColumn(name = "category_reference_product_id"))
+	List<Category> categoriesSet;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
@@ -43,4 +50,8 @@ public class Product {
 	)
 	private List<File> files;
 
+	@JsonIgnore
+	public void setCategoriesSet(List<Category> categoriesSet) {
+		this.categoriesSet = categoriesSet;
+	}
 }

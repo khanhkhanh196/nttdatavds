@@ -4,6 +4,7 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,9 +32,10 @@ public class Category {
 	}
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "category_product",
 			joinColumns = @JoinColumn(name = "category_references_product_id"),
 			inverseJoinColumns = @JoinColumn(name = "product_references_category_id"))
-	Set<Product> productsSet;
+	List<Product> productsSet;
 }
