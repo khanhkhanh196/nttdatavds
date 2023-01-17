@@ -24,12 +24,6 @@ public class FileControllerTest {
     private MockMultipartFile file;
     @BeforeEach
     private void setup(){
-//        fileDAO = mock(FileDAOImpl.class);
-//        storageProperties = mock(FileStorageProperties.class);
-//        when(storageProperties.getUploadDir()).thenReturn("test");
-//        file = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
-//                "Hello World".getBytes());
-//        fileService = new FileServiceImpl(storageProperties, fileDAO);
         controller = new FileController(fileService);
     }
 
