@@ -1,3 +1,14 @@
+-- DROP SCHEMA IF EXISTS `hb-product`;
+--
+-- CREATE SCHEMA `hb-product`;
+--
+-- use `hb-product`;
+-- DROP TABLE IF EXISTS `product`;
+-- DROP TABLE IF EXISTS `category`;
+-- DROP TABLE IF EXISTS `category_product`;
+-- DROP TABLE IF EXISTS `file`;
+-- DROP TABLE IF EXISTS `product_file`;
+
 
 create table `product` (
 `product_id` int not null auto_increment,

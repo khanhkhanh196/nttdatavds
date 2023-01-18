@@ -37,8 +37,13 @@ public class ProductDAOImpl implements ProductDAO {
 	}
 
 	@Override
-	public List<Product> getAllProductByCategoryName(String name) {
-		return productJpa.getAllProductByCategoryName(name);
+	public List<Product> getAllProductByCategoryName(String categoryName) {
+		return productJpa.getAllProductByCategoryName(categoryName);
+	}
+
+	@Override
+	public List<Product> getProductsByProductName(String productName) {
+		return productJpa.findByProductNameContaining(productName);
 	}
 
 

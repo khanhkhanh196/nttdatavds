@@ -43,8 +43,13 @@ public class ProductController {
 	}
 
 	@GetMapping("/product/categoryName")
-	public List<Product> getProductByCategoryName(@RequestParam String name) {
-		return productService.getProductByCategoryName(name);
+	public List<Product> getProductByCategoryName(@RequestParam String categoryName) {
+		return productService.getProductByCategoryName(categoryName);
+	}
+
+	@GetMapping("/product/productName")
+	public List<Product> getProductsByProductName(@RequestParam String productName) {
+		return productService.getProductsByProductName(productName);
 	}
 
 	@GetMapping("/products/{id}")
@@ -71,19 +76,6 @@ public class ProductController {
 
 	@PostMapping("/products")
 	public void addNewProduct(@RequestBody ProductDTO productDTO) {
-//		Product product = null;
-//		product = converter.convertProductDtoToEntity(productDTO);
-//		product.setProductId(0);
-//		int brandId = productDTO.getBrand();
-//		Category category = service.getCategory(brandId);
-//		if (category == null) {
-//			product.setCategory(category);
-//		}
-//		productService.saveProduct(product);
-//
-//		return new ResponseEntity<>(HttpStatus.ACCEPTED);
-//		Set<Category> categorySet = product.getCategoriesSet();
-//		Set<File> fileSet = product.getFiles();
 		Product product = converter.convertProductDtoToEntity(productDTO);
 		productService.saveProduct(product);
 

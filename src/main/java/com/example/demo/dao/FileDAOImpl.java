@@ -8,7 +8,7 @@ import com.example.demo.dao.daointerface.FileJPA;
 import com.example.demo.entity.File;
 
 @Repository
-public class fileDAOImpl implements FileDAO {
+public class FileDAOImpl implements FileDAO {
 	@Autowired
 	private FileJPA fileJPA;
 
