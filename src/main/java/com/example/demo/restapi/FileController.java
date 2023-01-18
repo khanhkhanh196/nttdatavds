@@ -39,6 +39,7 @@ import com.example.demo.service.serviceinterface.FileService;
 @RestController
 @RequestMapping(Constants.REST_MAPPING)
 public class FileController {
+	@Autowired
 	private FileService fileService;
 	@Autowired
 	public FileController(FileService fileService) {
