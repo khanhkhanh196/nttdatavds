@@ -18,7 +18,7 @@ public interface ProductJPA extends JpaRepository<Product, Integer>{
             "FROM category_product cp " +
             "JOIN Category c " +
             "ON cp.product_references_category_id = c.category_id " +
-            "WHERE category_name like :name%)", nativeQuery = true)
+            "WHERE slug = :name)", nativeQuery = true)
     public List<Product> getAllProductByCategoryName(@Param("name") String name);
 
     List<Product> findByProductNameContaining(String productName);
