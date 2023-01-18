@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories
+//@EnableJpaRepositories
 @EnableConfigurationProperties({
 		FileStorageProperties.class
 })
