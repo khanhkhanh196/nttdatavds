@@ -21,10 +21,21 @@ public class Category {
 	@Column(name="slug")
 	private String slug;
 
-	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+	public Category() {
+
+	}
+
+	public Category(int id, String name, String slug) {
+		this.categoryId = id;
+		this.categoryName = name;
+		this.slug = slug;
+	}
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "category_product",
-			joinColumns = @JoinColumn(name = "category_reference_product_id"),
+			joinColumns = @JoinColumn(name = "category_references_product_id"),
 			inverseJoinColumns = @JoinColumn(name = "product_references_category_id"))
 	List<Product> productsSet;
 }

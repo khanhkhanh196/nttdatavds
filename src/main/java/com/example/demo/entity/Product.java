@@ -45,8 +45,8 @@ public class Product {
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "product_file",
-			joinColumns = @JoinColumn(name = "product_reference_file_id"),
-			inverseJoinColumns = @JoinColumn(name = "file_reference_product_id")
+			joinColumns = @JoinColumn(name = "product_references_file_id"),
+			inverseJoinColumns = @JoinColumn(name = "file_references_product_id")
 	)
 	private List<File> files;
 

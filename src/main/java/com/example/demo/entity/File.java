@@ -2,17 +2,20 @@ package com.example.demo.entity;
 
 import javax.persistence.*;
 
+import lombok.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.ToString;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "file")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @ToString
+@AllArgsConstructor
 public class File {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
