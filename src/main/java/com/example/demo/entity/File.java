@@ -25,8 +25,6 @@ public class File {
 	private String file_name;
 	@Column(name = "url")
 	private String url;
-	@Column(name = "content_type")
-	private String contentType;
 
 	@ManyToMany(mappedBy = "files")
 	private List<Product> product;

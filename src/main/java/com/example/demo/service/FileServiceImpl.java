@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService {
 			Path targetLocation = this.fileStorageLocation.resolve(fileName);
 			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-			File entity = new File(0, fileName, fileDownloadUri, file.getContentType(), null);
+			File entity = new File(0, fileName, fileDownloadUri, null);
 			this.saveFile(entity);
 			return fileName;
 		} catch (IOException ex) {

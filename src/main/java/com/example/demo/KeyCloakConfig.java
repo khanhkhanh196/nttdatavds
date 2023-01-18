@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.common.Constants.*;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
@@ -49,12 +50,14 @@ public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception
     {
         super.configure(http);
-        http
+         http.csrf()
+                .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET).hasAnyRole("administrator","user")
-                .antMatchers(HttpMethod.POST).hasRole("administrator")
-                .antMatchers(HttpMethod.PUT).hasRole("administrator")
-                .antMatchers(HttpMethod.DELETE).hasRole("administrator")
+                .antMatchers(HttpMethod.POST).hasRole(Role.ADMIN)
+                .antMatchers(HttpMethod.GET).hasAnyRole(Role.ADMIN,Role.USER)
+                .antMatchers(HttpMethod.PUT).hasRole(Role.ADMIN)
+                .antMatchers(HttpMethod.DELETE).hasRole(Role.ADMIN)
                 .anyRequest().permitAll();
+
     }
 }
