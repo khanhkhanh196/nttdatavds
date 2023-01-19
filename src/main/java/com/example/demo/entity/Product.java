@@ -39,7 +39,7 @@ public class Product {
 	@JoinTable(
 			name = "category_product",
 			joinColumns = @JoinColumn(name = "product_references_category_id"),
-			inverseJoinColumns = @JoinColumn(name = "category_reference_product_id"))
+			inverseJoinColumns = @JoinColumn(name = "category_references_product_id"))
 	List<Category> categoriesSet;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
