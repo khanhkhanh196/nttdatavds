@@ -1,4 +1,4 @@
-package com.example.demo.dao.daointerface;
+package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +10,7 @@ import com.example.demo.entity.Product;
 import java.util.List;
 
 @Repository
-public interface ProductJPA extends JpaRepository<Product, Integer>{
+public interface ProductRepository extends JpaRepository<Product, Integer>{
 
     @Query(value = "SELECT * FROM Product p " +
             "WHERE p.product_id IN " +

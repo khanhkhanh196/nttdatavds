@@ -1,11 +1,9 @@
-package com.example.demo;
+package com.example.demo.service;
 
-import com.example.demo.dao.FileDAOImpl;
-import com.example.demo.dao.daointerface.FileDAO;
+
 import com.example.demo.exception.FileStorageException;
-import com.example.demo.exception.MyFileNotFoundException;
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.properties.FileStorageProperties;
-import com.example.demo.service.FileServiceImpl;
 import com.example.demo.service.serviceinterface.FileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,17 +26,15 @@ public class FileServiceTest {
     private static final String DOWNLOAD_FILE = "/downloadFile/";
     private FileService fileService;
     private FileStorageProperties storageProperties;
-    private FileDAO fileDAO;
     private MockMultipartFile file;
 
     @BeforeEach
     public void setup() throws IOException {
-        fileDAO = mock(FileDAOImpl.class);
         storageProperties = mock(FileStorageProperties.class);
         when(storageProperties.getUploadDir()).thenReturn("test");
         file = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
-        fileService = new FileServiceImpl(storageProperties, fileDAO);
+        fileService = new FileServiceImpl(storageProperties);
     }
 
     @Test
@@ -59,7 +55,7 @@ public class FileServiceTest {
     @Test
     void loadFileThrows() {
         String fileName = "foo.jps";
-        assertThrows(MyFileNotFoundException.class,() -> {
+        assertThrows(NotFoundException.class,() -> {
             fileService.loadFileAsResource(fileName);
         });
     }
@@ -67,7 +63,7 @@ public class FileServiceTest {
     @Test
     void loadFileSuccess() {
         when(storageProperties.getUploadDir()).thenReturn("src/main/resources/upload");
-        fileService = new FileServiceImpl(storageProperties, fileDAO);
+        fileService = new FileServiceImpl(storageProperties);
         String fileName = "June_odd-eyed-cat.jpg";
 
         assertEquals(fileService.loadFileAsResource(fileName).getFilename(), fileName);

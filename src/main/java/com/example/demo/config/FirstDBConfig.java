@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "firstDbEntityManagerFactory",
         transactionManagerRef = "firstDbTransactionManager",
-        basePackages = {"com.example.demo.dao.daointerface"}
+        basePackages = {"com.example.demo.repository"}
 )
 public class FirstDBConfig {
     @Primary

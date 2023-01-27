@@ -7,15 +7,14 @@ import java.util.regex.Matcher;
 
 import com.example.demo.common.Regex;
 import com.example.demo.exception.FileStorageException;
-import com.example.demo.exception.MyFileNotFoundException;
-import com.example.demo.dao.daointerface.FileJPA;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.dao.daointerface.FileDAO;
 import com.example.demo.entity.File;
 import com.example.demo.properties.FileStorageProperties;
 import com.example.demo.service.serviceinterface.FileService;
@@ -25,14 +24,11 @@ import java.util.List;
 
 @Service
 public class FileServiceImpl implements FileService {
-
-	private final FileDAO fileDao;
 	private final Path fileStorageLocation;
 	@Autowired
-	private FileJPA fileJPA;
+	private FileRepository fileRepository;
 	@Autowired
-	public FileServiceImpl(FileStorageProperties fileStorageProperties, FileDAO fileDao) {
-		this.fileDao = fileDao;
+	public FileServiceImpl(FileStorageProperties fileStorageProperties) {
 		this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
 		try {
 			Files.createDirectories(this.fileStorageLocation);
@@ -69,22 +65,22 @@ public class FileServiceImpl implements FileService {
 			if (resource.exists()) {
 				return resource;
 			} else {
-	                throw new MyFileNotFoundException("File not found " + fileName);
+	                throw new NotFoundException("File not found " + fileName);
 			}
 		} catch (MalformedURLException ex) {
-			throw new MyFileNotFoundException("File not found " + fileName, ex);
+			throw new NotFoundException("File not found " + fileName, ex);
 		}
 	}
 
 	
 	@Override
 	public void saveFile(File file) {
-		fileDao.saveFile(file);
+		fileRepository.save(file);
 	}
 
 	@Override
 	public List<String> getImageURLByProductId(int productId) {
-		List<File> files = fileJPA.getFilesByProductId(productId);
+		List<File> files = fileRepository.getFilesByProductId(productId);
 		List<String> imagesURL = new ArrayList<>();
 		for (File file: files) {
 			imagesURL.add(file.getUrl());

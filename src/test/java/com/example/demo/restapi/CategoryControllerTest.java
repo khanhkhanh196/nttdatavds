@@ -1,7 +1,6 @@
 package com.example.demo.restapi;
 
 import com.example.demo.dto.CategoryDTO;
-import com.example.demo.dto.converter.DTOConverter;
 import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryServiceImpl;
 import com.example.demo.service.serviceinterface.CategoryService;
@@ -10,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,15 +38,13 @@ public class CategoryControllerTest {
 //    @Mock
     CategoryServiceImpl categoryService;
 
-    @MockBean
-//    @Mock
-    DTOConverter converter;
-
     private int id = 1;
 
     private String url = "/rest/categories";
 
     private String name = "category name";
+
+    List<Category> categories = new ArrayList<>();
 
     public static String asJsonString(final Object obj) {
         try {
@@ -63,10 +61,8 @@ public class CategoryControllerTest {
         CategoryDTO categoryDTO = new CategoryDTO("category name", "category-name");
 
         // When
-        Mockito.when(converter.convertCategoryDtoToEntity(any(CategoryDTO.class))).thenReturn(category);
+        Mockito.when(categoryDTO.convertToEntity()).thenReturn(category);
         Mockito.when(categoryService.saveCategory(category)).thenReturn(1);
-//        given(converter.convertCategoryDtoToEntity(any(CategoryDTO.class))).willReturn(category);
-//        given(categoryService.saveCategory(any(Category.class))).willReturn(1);
 
         // Then
         mockMvc.perform(post("/rest/categories")
@@ -82,7 +78,7 @@ public class CategoryControllerTest {
 
         // When
         Mockito.when(categoryService.getCategoryById(id)).thenReturn(category);
-        Mockito.when(converter.convertToCategoryDTO(any(Category.class))).thenReturn(categoryDTO);
+        Mockito.when(category.convertToCategoryDTO()).thenReturn(categoryDTO);
 
 
         // Then
@@ -95,10 +91,11 @@ public class CategoryControllerTest {
     public void findCategoryByName_return200() throws Exception {
         Category category = new Category(id, "category name", "category-name");
         CategoryDTO categoryDTO = new CategoryDTO("category name", "category-name");
+        categories.add(category);
 
         // When
-        Mockito.when(categoryService.getCategoryByName(name)).thenReturn(category);
-        Mockito.when(converter.convertToCategoryDTO(any(Category.class))).thenReturn(categoryDTO);
+        Mockito.when(categoryService.getCategoryByName(name)).thenReturn(categories);
+        Mockito.when(category.convertToCategoryDTO()).thenReturn(categoryDTO);
 
 
         // Then
