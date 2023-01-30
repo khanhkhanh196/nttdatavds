@@ -1,13 +1,4 @@
--- DROP SCHEMA IF EXISTS `hb-product`;
---
--- CREATE SCHEMA `hb-product`;
---
--- use `hb-product`;
--- DROP TABLE IF EXISTS `product`;
--- DROP TABLE IF EXISTS `category`;
--- DROP TABLE IF EXISTS `category_product`;
--- DROP TABLE IF EXISTS `file`;
--- DROP TABLE IF EXISTS `product_file`;
+
 
 
 create table `product` (
@@ -17,7 +8,6 @@ create table `product` (
 `stock` int default null,
 `price` double default null,
 `sold` int default null,
-
 
 primary key (`product_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
@@ -34,6 +24,10 @@ create table `file` (
 `file_id` int not null auto_increment,
 `file_name` nvarchar(100) not null,
 `url` nvarchar(100) default null,
+`product_references_id` int default null,
+
+constraint `product_fk_2` foreign key (`product_references_id`)
+references `product` (`product_id`),
 
 primary key (`file_id`)
 )  ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
@@ -59,7 +53,7 @@ create table `product_file` (
 
 primary key (`id`),
 
-constraint `product_fk_2` foreign key (`product_references_file_id`)
+constraint `product_fk_3` foreign key (`product_references_file_id`)
 references `product` (`product_id`),
 
 constraint `file_fk_1` foreign key (`file_references_product_id`)

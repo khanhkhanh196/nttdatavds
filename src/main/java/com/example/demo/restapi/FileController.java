@@ -39,16 +39,16 @@ import com.example.demo.service.serviceinterface.FileService;
 @RestController
 @RequestMapping(Constants.REST_MAPPING)
 public class FileController {
-	@Autowired
+
 	private FileService fileService;
 	@Autowired
 	public FileController(FileService fileService) {
 		this.fileService = fileService;
 	}
-	private static final String DOWNLOAD_FILE = "/downloadFile/";
+	private static final String DOWNLOAD_FILE = "/download-image/";
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-	@PostMapping("/uploadFiles")
+	@PostMapping("/upload-image")
 	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
 
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
@@ -61,7 +61,7 @@ public class FileController {
 		return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
 	}
 
-	@PostMapping("/uploadMultipleFiles")
+	@PostMapping("/upload-images")
 	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
 		return Arrays.asList(files).stream().map(file -> this.uploadFile(file)).collect(Collectors.toList());
 	}
@@ -87,15 +87,5 @@ public class FileController {
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
-	}
-
-	@PostMapping("/test-regex/{file}")
-	public void testRegex(@PathVariable("file") String file) {
-		Matcher matcher = Regex.noSpecialChar.matcher(file);
-		boolean inValidFileName = matcher.find();
-		// Check if the file's name contains invalid characters
-		if (inValidFileName) {
-			throw new FileStorageException("Sorry! Filename contains invalid path sequence ");
-		}
 	}
 }
