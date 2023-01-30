@@ -1,6 +1,6 @@
 package com.example.demo.controlleradvice;
 
-import com.example.demo.exception.CategoryNotFoundException;
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.payload.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class CategoryControllerAdvice {
+public class ObjectControllerAdvice {
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(CategoryNotFoundException exc) {
+    public ResponseEntity<ErrorResponse> handleException(NotFoundException exc) {
         ErrorResponse error = new ErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage(),
                 System.currentTimeMillis());
 

@@ -1,7 +1,6 @@
-package com.example.demo;
+package com.example.demo.restapi;
 
-import com.example.demo.dao.daointerface.FileDAO;
-import com.example.demo.properties.FileStorageProperties;
+
 import com.example.demo.restapi.FileController;
 import com.example.demo.service.FileServiceImpl;
 import com.example.demo.service.serviceinterface.FileService;

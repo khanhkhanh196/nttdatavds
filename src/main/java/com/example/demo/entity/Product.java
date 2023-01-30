@@ -5,10 +5,13 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.example.demo.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.ToString;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "product")
@@ -53,5 +56,15 @@ public class Product {
 	@JsonIgnore
 	public void setCategoriesSet(List<Category> categoriesSet) {
 		this.categoriesSet = categoriesSet;
+	}
+
+	public ProductDTO convertToProductDTO() {
+		ModelMapper modelMapper = new ModelMapper();
+		ProductDTO dto = modelMapper.map(this, ProductDTO.class);
+		if (this != null) {
+			dto.setCategoriesSet(this.getCategoriesSet());
+			dto.setFiles(this.getFiles());
+		}
+		return dto;
 	}
 }

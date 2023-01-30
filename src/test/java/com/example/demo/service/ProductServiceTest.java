@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.ProductDAOImpl;
-import com.example.demo.dao.daointerface.ProductDAO;
-import com.example.demo.dao.daointerface.ProductJPA;
+
 import com.example.demo.entity.Category;
 import com.example.demo.entity.File;
-import com.example.demo.entity.Product;
+import com.example.demo.repository.ProductRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,12 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class ProductServiceImplTest {
+class ProductServiceTest {
 
     public static final int PRODUCT_ID = 1;
     public static final String NAME = "NAME";
@@ -34,7 +29,7 @@ class ProductServiceImplTest {
     ProductServiceImpl productServiceTest;
 
     @Autowired
-    ProductJPA productTest;
+    ProductRepository productTest;
 
     @BeforeEach
     void setUp() {

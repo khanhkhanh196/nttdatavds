@@ -2,12 +2,11 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.dto.ProductDTO;
-import com.example.demo.exception.ProductNotFoundException;
+import com.example.demo.repository.ProductRepository;
+import com.example.demo.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dao.daointerface.ProductDAO;
 import com.example.demo.entity.Product;
 import com.example.demo.service.serviceinterface.ProductService;
 
@@ -18,40 +17,40 @@ import javax.transaction.Transactional;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductDAO productDao;
+	private ProductRepository productRepository;
 	
 	@Transactional
 	@Override
 	public List<Product> getAllProduct() {
-		return productDao.getAllProduct();
+		return productRepository.findAll();
 	}
 
 	@Transactional
 	@Override
 	public Product getProduct(int theId) {
-		return productDao.getProduct(theId);
+		return productRepository.findById(theId).orElseThrow(() -> new NotFoundException("Not found product by id"));
 	}
 
 	@Transactional
 	@Override
 	public void saveProduct(Product product) {
-		productDao.saveProduct(product);
+		productRepository.save(product);
 	}
 
 	@Transactional
 	@Override
 	public void deleteProduct(int theId) {
-		productDao.deleteProduct(theId);
+		productRepository.deleteById(theId);
 	}
 
 	@Override
 	public List<Product> getProductByCategoryName(String categoryName) {
-		return productDao.getAllProductByCategoryName(categoryName);
+		return productRepository.getAllProductByCategoryName(categoryName);
 	}
 
 	@Override
 	public List<Product> getProductsByProductName(String productName) {
-		return productDao.getProductsByProductName(productName);
+		return productRepository.findByProductNameContaining(productName);
 	}
 
 }

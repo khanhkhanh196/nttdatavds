@@ -1,4 +1,4 @@
-package com.example.demo.dao.daointerface;
+package com.example.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +10,7 @@ import com.example.demo.entity.File;
 import java.util.List;
 
 @Repository
-public interface FileJPA extends JpaRepository<File, Integer> {
+public interface FileRepository extends JpaRepository<File, Integer> {
 
     public static final String FIND_IMAGE_URL =
                     "SELECT * " +
