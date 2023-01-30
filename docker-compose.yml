@@ -1,0 +1,56 @@
+version: '3'
+
+volumes:
+  mysql_data:
+    driver: local
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "3308:3308"
+    #command: --init-file /data/application/init.sql
+    volumes:
+        - mysql_data:/var/lib/mysql
+     # - ./init.sql:/data/application/init.sql
+    environment:
+        - MYSQL_DATABASE=keycloak
+        - MYSQL_USER=keycloak
+        - MYSQL_PASSWORD=password
+        - MYSQL_ROOT_PASSWORD=123456
+    healthcheck:
+      test: "mysqladmin ping -u root -p$${MYSQL_ROOT_PASSWORD}"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.1
+    container_name: keycloak
+    volumes:
+      - ./keycloak/ProductManager-realm.json:/opt/jboss/keycloak/imports/ProductManager-realm.json
+    environment:
+      - DB=mysql
+      - DB_URL_HOST=mysql
+      - DB_URL_DATABASE=keycloak
+      - DB_USERNAME=keycloak
+      - DB_PASSWORD=password
+      - DB_SCHEMA=keycloak
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    command:
+      - "-Dkeycloak.import=/opt/jboss/keycloak/imports/ProductManager-realm.json"
+      - "start-dev --http-port 8080"
+    depends_on:
+      - mysql
+    healthcheck:
+      test: "curl -f http://localhost:8080/admin || exit 1"
+    # app:
+    # image: 'docker-spring-boot-postgres:latest'
+    #  build:
+    #    context: .
+    #  container_name: app
+    #  ports:
+    #    - "8082:8082"
+    #  depends_on:
+    #    - keycloak
