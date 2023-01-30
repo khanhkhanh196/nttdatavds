@@ -1,37 +1,38 @@
 package com.example.demo.service;
 
+import com.example.demo.repository.CategoryRepository;
+import com.example.demo.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dao.daointerface.CategoryDAO;
 import com.example.demo.entity.Category;
 import com.example.demo.service.serviceinterface.CategoryService;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
-	private CategoryDAO categoryDao;
+	private CategoryRepository categoryRepository;
 	
 	@Override
-	public Category getCategoryById(int theId) {
-		return categoryDao.getById(theId);
+	public Category getCategoryById(int id) {
+		return categoryRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found category by id"));
 	}
 
 	@Override
-	public Category getCategoryByName(String name) {
-		return categoryDao.getByName(name);
+	public List<Category> getCategoryByName(String name) {
+		return categoryRepository.findByCategoryNameContaining(name);
 	}
 
 	@Override
 	public int saveCategory(Category category) {
-		categoryDao.saveCategory(category);
+		categoryRepository.save(category);
 		String folder = "./uploads/" + category.getSlug();
 		try {
 
@@ -51,8 +52,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public int deleteCategory(int categoryId) {
-		categoryDao.deleteCategory(categoryId);
+	public int deleteCategory(int id) {
+		categoryRepository.findById(id).map(category -> {
+			categoryRepository.deleteById(id);
+			return 1;
+		}).orElseThrow(() -> new NotFoundException("Not found category by id"));
 		return 1;
 	}
 

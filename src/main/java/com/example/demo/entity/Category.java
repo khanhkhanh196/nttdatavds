@@ -1,8 +1,12 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+
+import com.example.demo.dto.CategoryDTO;
 import lombok.Data;
 import lombok.ToString;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Set;
@@ -38,4 +42,11 @@ public class Category {
 			joinColumns = @JoinColumn(name = "category_references_product_id"),
 			inverseJoinColumns = @JoinColumn(name = "product_references_category_id"))
 	List<Product> productsSet;
+
+	public CategoryDTO convertToCategoryDTO() {
+		ModelMapper modelMapper = new ModelMapper();
+		CategoryDTO dto = modelMapper.map(this, CategoryDTO.class);
+		return dto;
+	}
+
 }
