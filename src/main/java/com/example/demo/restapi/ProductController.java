@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.example.demo.dto.ApiResponse;
 import com.example.demo.entity.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,14 +29,14 @@ public class ProductController {
 	private CategoryService service;
 
 	@GetMapping("/products")
-	public List<ProductDTO> getAllProduct() {
+	public ResponseEntity<ApiResponse<List<ProductDTO>>> getAllProduct() {
 		List<Product> allProduct = productService.getAllProduct();
 		List<ProductDTO> productDTOList = new ArrayList<>();
 		for (Product product : allProduct) {
 			ProductDTO productDTO = product.convertToProductDTO();
 			productDTOList.add(productDTO);
 		}
-		return productDTOList;
+		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
 	}
 
 	@GetMapping("/product/categoryName")

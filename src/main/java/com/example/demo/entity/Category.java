@@ -35,12 +35,7 @@ public class Category {
 		this.slug = slug;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "category_product",
-			joinColumns = @JoinColumn(name = "category_references_product_id"),
-			inverseJoinColumns = @JoinColumn(name = "product_references_category_id"))
+	@ManyToMany(mappedBy = "categoriesSet")
 	List<Product> productsSet;
 
 	public CategoryDTO convertToCategoryDTO() {

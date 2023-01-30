@@ -38,25 +38,22 @@ public class Product {
 	@Column(name = "price")
 	private double price;
 
-	@ManyToMany(cascade = {CascadeType.DETACH,  CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToMany
 	@JoinTable(
 			name = "category_product",
 			joinColumns = @JoinColumn(name = "product_references_category_id"),
 			inverseJoinColumns = @JoinColumn(name = "category_references_product_id"))
 	List<Category> categoriesSet;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToMany
 	@JoinTable(
 			name = "product_file",
 			joinColumns = @JoinColumn(name = "product_references_file_id"),
 			inverseJoinColumns = @JoinColumn(name = "file_references_product_id")
 	)
 	private List<File> files;
-
-	@JsonIgnore
-	public void setCategoriesSet(List<Category> categoriesSet) {
-		this.categoriesSet = categoriesSet;
-	}
 
 	public ProductDTO convertToProductDTO() {
 		ModelMapper modelMapper = new ModelMapper();
