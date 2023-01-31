@@ -82,6 +82,15 @@
         "attributes": {}
       },
       {
+        "id": "4c67fb81-dce6-4db8-8691-8fc1ac3f1df3",
+        "name": "admin",
+        "description": "",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "fc08242c-fe34-4ee9-8c7d-28f831e3df6e",
+        "attributes": {}
+      },
+      {
         "id": "06e2c987-da9c-4fcf-a12f-a2d28dc08bbb",
         "name": "default-roles-productmanagement",
         "description": "${role_default-roles}",
@@ -499,6 +508,7 @@
       "clientScope": "roles",
       "roles": [
         "administrator",
+        "admin",
         "user"
       ]
     },
