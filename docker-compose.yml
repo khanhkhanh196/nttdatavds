@@ -49,7 +49,7 @@ services:
     image: quay.io/keycloak/keycloak:20.0.1
     container_name: keycloak
     volumes:
-      - ./keycloak/ProductManager-realm.json:/opt/jboss/keycloak/imports/ProductManager-realm.json
+      - ./keycloak:/opt/jboss/keycloak/imports
     environment:
       - DB=mysql
       - DB_URL_HOST=mysql
@@ -62,7 +62,7 @@ services:
     ports:
       - "8080:8080"
     command:
-      - "-Dkeycloak.import=/opt/jboss/keycloak/imports/ProductManager-realm.json"
+      - "-Dkeycloak.import=/opt/jboss/keycloak/imports/ProductManagement-realm.json"
       - "start-dev --http-port 8080"
     depends_on:
       - mysql

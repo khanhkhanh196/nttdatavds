@@ -54,7 +54,6 @@ public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST).hasRole(Role.ADMIN)
-                .antMatchers(HttpMethod.GET).hasAnyRole(Role.ADMIN,Role.USER)
                 .antMatchers(HttpMethod.PUT).hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.DELETE).hasRole(Role.ADMIN)
                 .anyRequest().permitAll();
