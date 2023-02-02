@@ -50,7 +50,6 @@ public class FileController {
 
 	@PostMapping("/upload-image")
 	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(Constants.REST_MAPPING + DOWNLOAD_FILE)

@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,11 +37,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FileControllerTest {
     @Autowired
     MockMvc mockMvc;
-    private MultipartFile file= mock(MockMultipartFile.class);
-
-    @Before
+    private MockMultipartFile file;
+    @BeforeEach
     public void setup() throws IOException {
-        file = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
+        file = new MockMultipartFile("file", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
     }
 
@@ -48,8 +48,8 @@ public class FileControllerTest {
     public void uploadFileTest_201() throws Exception {
         configureSecurityContext("user","admin");
 
-        mockMvc.perform(multipart("/rest/upload-image")
-                        .file("file",file.getBytes())
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/rest/upload-image")
+                        .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
