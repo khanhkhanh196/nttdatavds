@@ -31,7 +31,7 @@ public class FileServiceTest {
     @BeforeEach
     public void setup() throws IOException {
         storageProperties = mock(FileStorageProperties.class);
-        when(storageProperties.getUploadDir()).thenReturn("test");
+        when(storageProperties.getUploadDir()).thenReturn("upload");
         file = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
         fileService = new FileServiceImpl(storageProperties);

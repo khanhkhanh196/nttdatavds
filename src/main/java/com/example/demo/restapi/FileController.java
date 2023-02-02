@@ -50,7 +50,6 @@ public class FileController {
 
 	@PostMapping("/upload-image")
 	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(Constants.REST_MAPPING + DOWNLOAD_FILE)
@@ -62,8 +61,8 @@ public class FileController {
 	}
 
 	@PostMapping("/upload-images")
-	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-		return Arrays.asList(files).stream().map(file -> this.uploadFile(file)).collect(Collectors.toList());
+	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") List<MultipartFile> files) {
+		return files.stream().map(this::uploadFile).collect(Collectors.toList());
 	}
 
 	@GetMapping(DOWNLOAD_FILE + "{fileName}")
