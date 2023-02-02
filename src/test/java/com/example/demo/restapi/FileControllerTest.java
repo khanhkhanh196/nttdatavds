@@ -50,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(FileController.class)
 @ExtendWith(MockitoExtension.class)
 @ComponentScan(basePackageClasses = { KeyCloakConfig.class , KeycloakSpringBootConfigResolver.class })
-public class FileControllerTest {
+public class FileControllerTest extends BaseControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -84,18 +84,5 @@ public class FileControllerTest {
                         .file("file",file.getBytes())
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
-    }
-
-    private void configureSecurityContext(String... roles) {
-        final var principal = mock(Principal.class);
-
-        final var account = mock(OidcKeycloakAccount.class);
-        when(account.getRoles()).thenReturn(new HashSet<>(Arrays.asList(roles)));
-        when(account.getPrincipal()).thenReturn(principal);
-
-        final var authentication = mock(KeycloakAuthenticationToken.class);
-        when(authentication.getAccount()).thenReturn(account);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
