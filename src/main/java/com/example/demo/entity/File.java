@@ -28,8 +28,10 @@ public class File {
 
 	@ManyToMany(mappedBy = "files")
 	private List<Product> product;
-	@JsonIgnore
-	public void setProduct(List<Product> product) {
-		this.product = product;
+
+	@Override
+	public String toString() {
+		return "File{}";
 	}
+
 }

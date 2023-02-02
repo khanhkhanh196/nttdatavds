@@ -1,17 +1,20 @@
-//package com.example.demo.dto.converter;
-//
-//import com.example.demo.dto.CategoryDTO;
-//import com.example.demo.entity.Category;
-//import org.modelmapper.ModelMapper;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Component;
-//
-//import com.example.demo.dto.ProductDTO;
-//import com.example.demo.entity.Product;
-//
-//@Component
-//public class DTOConverter {
-//
+package com.example.demo.dto.converter;
+
+import com.example.demo.dto.CategoryDTO;
+import com.example.demo.entity.Category;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.example.demo.dto.ProductDTO;
+import com.example.demo.entity.Product;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+public class DTOConverter {
+
 //	@Autowired
 //	private ModelMapper modelMapper;
 //
@@ -38,5 +41,13 @@
 //		CategoryDTO dto = modelMapper.map(category, CategoryDTO.class);
 //		return dto;
 //	}
-//
-//}
+    public List<ProductDTO> convertProductListToProductDTOList(List<Product> productList) {
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        for (Product product : productList) {
+            ProductDTO productDTO = product.convertToProductDTO();
+            productDTOList.add(productDTO);
+        }
+        return productDTOList;
+    }
+
+}
