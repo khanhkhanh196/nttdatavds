@@ -46,8 +46,7 @@ public class FileControllerTest {
 
     @Test
     public void uploadFileTest_201() throws Exception {
-        configureSecurityContext("user","admin");
-
+        configureSecurityContext("admin");
         mockMvc.perform(MockMvcRequestBuilders.multipart("/rest/upload-image")
                         .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -59,9 +58,24 @@ public class FileControllerTest {
         configureSecurityContext("khanh","user");
 
         mockMvc.perform(multipart("/rest/upload-image")
-                        .file("file",file.getBytes())
+                        .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void uploadMultipleFileTest() throws Exception {
+        configureSecurityContext("admin");
+        MockMultipartFile file2 = new MockMultipartFile("files", "fooo.txt", MediaType.TEXT_PLAIN_VALUE,
+                "Hello World".getBytes());
+        MockMultipartFile file3 = new MockMultipartFile("files", "foooo.txt", MediaType.TEXT_PLAIN_VALUE,
+                "Hello World".getBytes());
+
+        mockMvc.perform(multipart("/rest/upload-images")
+                .file(file2)
+                .file(file3)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
