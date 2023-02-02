@@ -7,25 +7,32 @@ import com.example.demo.entity.Category;
 import com.example.demo.entity.File;
 
 import com.example.demo.entity.Product;
+import com.example.demo.service.CategoryServiceImpl;
+import com.example.demo.service.FileServiceImpl;
+import com.example.demo.service.serviceinterface.CategoryService;
+import com.example.demo.service.serviceinterface.FileService;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ProductDTO {
-	private int id;
-	private String name;
+
+	private int productId;
+	private String productName;
 	private String shortDesc;
 	private double price;
 	private int stock;
 	private int sold;
-	private List<Category> categoriesSet;
-	private List<File> files;
+	private List<Integer> categoriesIds;
+	private List<Integer> filesIds;
 
-	public Product convertToEntity() {
-		ModelMapper modelMapper = new ModelMapper();
-		Product product = modelMapper.map(this, Product.class);
-		return product;
-	}
 
 }

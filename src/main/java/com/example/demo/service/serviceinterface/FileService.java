@@ -13,4 +13,6 @@ public interface FileService {
 
 	Resource loadFileAsResource(String fileName);
 	public List<String> getImageURLByProductId(int productId);
+
+	public File getFileById(int id);
 }

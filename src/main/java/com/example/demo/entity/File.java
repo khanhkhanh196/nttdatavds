@@ -29,4 +29,9 @@ public class File {
 	@ManyToMany(mappedBy = "files")
 	private List<Product> product;
 
+	@Override
+	public String toString() {
+		return "File{}";
+	}
+
 }

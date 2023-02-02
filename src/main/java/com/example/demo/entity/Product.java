@@ -1,21 +1,22 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 
 import com.example.demo.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "product")
-@Data
+@Getter
+@Setter
 @ToString
 public class Product {
 	@Id
@@ -58,10 +59,22 @@ public class Product {
 	public ProductDTO convertToProductDTO() {
 		ModelMapper modelMapper = new ModelMapper();
 		ProductDTO dto = modelMapper.map(this, ProductDTO.class);
+		List<Integer> categoryIds = new ArrayList<>();
+		List<Integer> fileIds = new ArrayList<>();
 		if (this != null) {
-			dto.setCategoriesSet(this.getCategoriesSet());
-			dto.setFiles(this.getFiles());
+			for (Category category :
+				 categoriesSet) {
+				categoryIds.add(category.getCategoryId());
+			}
+			for (File file :
+					files) {
+				fileIds.add(file.getFileId());
+			}
+			dto.setCategoriesIds(categoryIds);
+			dto.setFilesIds(fileIds);
 		}
 		return dto;
 	}
+
+
 }

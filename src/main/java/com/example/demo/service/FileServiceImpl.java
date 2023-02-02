@@ -88,4 +88,9 @@ public class FileServiceImpl implements FileService {
 		return imagesURL;
 	}
 
+	@Override
+	public File getFileById(int id) {
+		return fileRepository.findById(id).orElseThrow(()-> new NotFoundException());
+	}
+
 }

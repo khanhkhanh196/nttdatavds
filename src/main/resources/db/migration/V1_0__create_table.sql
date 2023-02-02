@@ -24,10 +24,6 @@ create table `file` (
 `file_id` int not null auto_increment,
 `file_name` nvarchar(100) not null,
 `url` nvarchar(100) default null,
-`product_references_id` int default null,
-
-constraint `product_fk_2` foreign key (`product_references_id`)
-references `product` (`product_id`),
 
 primary key (`file_id`)
 )  ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

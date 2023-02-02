@@ -44,4 +44,8 @@ public class Category {
 		return dto;
 	}
 
+	@Override
+	public String toString() {
+		return "Category{}";
+	}
 }
