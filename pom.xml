@@ -51,6 +51,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.modelmapper</groupId>
@@ -101,6 +102,21 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>2.1.214</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<!-- just enough for @WithMockKeycloackAuth -->
+			<groupId>com.c4-soft.springaddons</groupId>
+			<artifactId>spring-security-oauth2-test-addons</artifactId>
+			<version>3.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- required only for WebMvc "fluent" API -->
+			<groupId>com.c4-soft.springaddons</groupId>
+			<artifactId>spring-security-oauth2-test-webmvc-addons</artifactId>
+			<version>3.0.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
