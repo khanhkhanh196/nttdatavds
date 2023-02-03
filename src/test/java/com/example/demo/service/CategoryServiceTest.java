@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doNothing;
 @RunWith(SpringRunner.class)
 public class CategoryServiceTest {
     @InjectMocks
-    private CategoryService categoryService;
+    private CategoryService categoryService = new CategoryServiceImpl();
 
     @Mock
     private CategoryRepository categoryRepository;

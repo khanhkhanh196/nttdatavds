@@ -1,18 +1,23 @@
 package com.example.demo.restapi;
 
+import com.example.demo.config.KeyCloakConfig;
 import com.example.demo.dto.CategoryDTO;
 import com.example.demo.entity.Category;
 import com.example.demo.service.CategoryServiceImpl;
 import com.example.demo.service.serviceinterface.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,7 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CategoryController.class)
-public class CategoryControllerTest {
+@ComponentScan(basePackageClasses = { KeyCloakConfig.class , KeycloakSpringBootConfigResolver.class })
+public class CategoryControllerTest extends BaseControllerTest{
     @Autowired
 //    @Mock
     MockMvc mockMvc;
@@ -56,12 +62,14 @@ public class CategoryControllerTest {
 
     @Test
     public void addNewCategory_return201() throws Exception {
+        configureSecurityContext("user","admin");
+
         // Given
         Category category = new Category(id, "category name", "category-name");
         CategoryDTO categoryDTO = new CategoryDTO("category name", "category-name");
 
         // When
-        Mockito.when(categoryDTO.convertToEntity()).thenReturn(category);
+//        Mockito.when(categoryDTO.convertToEntity()).thenReturn(category);
         Mockito.when(categoryService.saveCategory(category)).thenReturn(1);
 
         // Then
@@ -73,12 +81,14 @@ public class CategoryControllerTest {
 
     @Test
     public void findCategoryById_return200() throws Exception {
+        configureSecurityContext("user","admin");
+
         Category category = new Category(id, "category name", "category-name");
         CategoryDTO categoryDTO = new CategoryDTO("category name", "category-name");
 
         // When
         Mockito.when(categoryService.getCategoryById(id)).thenReturn(category);
-        Mockito.when(category.convertToCategoryDTO()).thenReturn(categoryDTO);
+//        Mockito.when(category.convertToCategoryDTO()).thenReturn(categoryDTO);
 
 
         // Then
@@ -89,13 +99,15 @@ public class CategoryControllerTest {
 
     @Test
     public void findCategoryByName_return200() throws Exception {
+        configureSecurityContext("user","admin");
+
         Category category = new Category(id, "category name", "category-name");
         CategoryDTO categoryDTO = new CategoryDTO("category name", "category-name");
         categories.add(category);
 
         // When
         Mockito.when(categoryService.getCategoryByName(name)).thenReturn(categories);
-        Mockito.when(category.convertToCategoryDTO()).thenReturn(categoryDTO);
+//        Mockito.when(category.convertToCategoryDTO()).thenReturn(categoryDTO);
 
 
         // Then
@@ -106,6 +118,7 @@ public class CategoryControllerTest {
 
     @Test
     public void deleteCategory_return200() throws Exception {
+        configureSecurityContext("user","admin");
 
         // When
         Mockito.when(categoryService.deleteCategory(id)).thenReturn(1);
