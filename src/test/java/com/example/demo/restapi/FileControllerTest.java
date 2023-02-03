@@ -57,7 +57,7 @@ public class FileControllerTest {
     public void uploadFileTest_403() throws Exception {
         configureSecurityContext("khanh","user");
 
-        mockMvc.perform(multipart("/rest/upload-image")
+        mockMvc.perform(multipart("/rest/upload-file")
                         .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
@@ -71,7 +71,7 @@ public class FileControllerTest {
         MockMultipartFile file3 = new MockMultipartFile("files", "foooo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
 
-        mockMvc.perform(multipart("/rest/upload-images")
+        mockMvc.perform(multipart("/rest/upload-files")
                 .file(file2)
                 .file(file3)
                 .contentType(MediaType.MULTIPART_FORM_DATA)

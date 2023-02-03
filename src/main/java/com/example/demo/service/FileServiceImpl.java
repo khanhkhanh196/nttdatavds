@@ -6,6 +6,7 @@ import java.nio.file.*;
 import java.util.regex.Matcher;
 
 import com.example.demo.common.Regex;
+import com.example.demo.entity.Category;
 import com.example.demo.exception.FileStorageException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.FileRepository;
@@ -38,7 +39,7 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public String storeFile(MultipartFile file,String fileName, String fileDownloadUri) {
+	public String storeFile(MultipartFile file, String fileName, String fileDownloadUri, Category category) {
 		try {
 			Matcher matcher = Regex.noSpecialChar.matcher(fileName);
 			boolean inValidFileName = matcher.find();
@@ -47,7 +48,7 @@ public class FileServiceImpl implements FileService {
 	                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
 			}
 			// Copy file to the target location (Replacing existing file with the same name)
-			Path targetLocation = this.fileStorageLocation.resolve(fileName);
+			Path targetLocation = this.fileStorageLocation.resolve(category.getSlug()).resolve(fileName);
 			Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
 			File entity = new File(0, fileName, fileDownloadUri, null);
@@ -58,9 +59,9 @@ public class FileServiceImpl implements FileService {
 		}
 	}
 
-	public Resource loadFileAsResource(String fileName) {
+	public Resource loadFileAsResource(String fileName, String categorySlug) {
 		try {
-			Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+			Path filePath = this.fileStorageLocation.resolve(categorySlug).resolve(fileName).normalize();
 			Resource resource = new UrlResource(filePath.toUri());
 			if (resource.exists()) {
 				return resource;
