@@ -1,13 +1,8 @@
 package com.example.demo.restapi;
 
 
-
 import com.example.demo.config.KeyCloakConfig;
-import org.aspectj.lang.annotation.After;
 import org.junit.Before;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.adapters.OidcKeycloakAccount;
@@ -23,15 +18,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.security.Principal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FileController.class)
@@ -45,7 +40,7 @@ public class FileControllerTest {
     private static final String categoryName = "Category name";
     private static final String categorySlug = "category-name";
     @Before
-    public void setup() throws IOException {
+    public void setup() {
         file = new MockMultipartFile("file", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
     }

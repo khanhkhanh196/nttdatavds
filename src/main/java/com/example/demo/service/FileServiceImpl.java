@@ -26,10 +26,10 @@ import java.util.List;
 @Service
 public class FileServiceImpl implements FileService {
 	private final Path fileStorageLocation;
-	@Autowired
 	private FileRepository fileRepository;
 	@Autowired
-	public FileServiceImpl(FileStorageProperties fileStorageProperties) {
+	public FileServiceImpl(FileStorageProperties fileStorageProperties, FileRepository fileRepository) {
+		this.fileRepository = fileRepository;
 		this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
 		try {
 			Files.createDirectories(this.fileStorageLocation);
