@@ -10,7 +10,7 @@ import java.util.List;
 public interface FileService {
 	public void saveFile(File file);
 
-	String storeFile(MultipartFile file, String fileName, String fileDownloadUri, Category categorySlug);
+	String storeFile(MultipartFile file, String fileName, String fileDownloadUri, Category category);
 
 	Resource loadFileAsResource(String fileName, String categorySlug);
 	public List<String> getImageURLByProductId(int productId);
