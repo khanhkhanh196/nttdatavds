@@ -31,6 +31,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public Category getACategoryByName(String name) {
+		return categoryRepository.findByCategoryName(name);
+	}
+
+	@Override
 	public int saveCategory(Category category) {
 		categoryRepository.save(category);
 		String folder = "./uploads/" + category.getSlug();

@@ -1,75 +1,69 @@
 package com.example.demo.restapi;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.example.demo.common.Constants;
-import com.example.demo.common.Regex;
-import com.example.demo.exception.FileStorageException;
+import com.example.demo.entity.Category;
+import com.example.demo.service.serviceinterface.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.demo.entity.File;
 import com.example.demo.payload.response.UploadFileResponse;
-import com.example.demo.service.FileServiceImpl;
 import com.example.demo.service.serviceinterface.FileService;
 
 @RestController
 @RequestMapping(Constants.REST_MAPPING)
 public class FileController {
 
+	private CategoryService categoryService;
 	private FileService fileService;
+
 	@Autowired
-	public FileController(FileService fileService) {
+	public FileController(FileService fileService, CategoryService categoryService) {
 		this.fileService = fileService;
+		this.categoryService = categoryService;
 	}
-	private static final String DOWNLOAD_FILE = "/download-image/";
+
+	private static final String FILE_URL = "/file/";
 	private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-	@PostMapping("/upload-image")
-	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+	@PostMapping("/upload-file/file-category/{categoryName}")
+	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("categoryName") String categoryName) {
+		Category category = categoryService.getACategoryByName(categoryName);
 
 		String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
-		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(Constants.REST_MAPPING + DOWNLOAD_FILE)
+		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path(Constants.REST_MAPPING + FILE_URL).path(category.getSlug() + "/")
 				.path(fileName).toUriString();
 
-		fileService.storeFile(file, fileName, fileDownloadUri);
+		fileService.storeFile(file, fileName, fileDownloadUri, category);
 
-		return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+		return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(),categoryName,file.getSize());
 	}
 
-	@PostMapping("/upload-images")
-	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-		return Arrays.asList(files).stream().map(file -> this.uploadFile(file)).collect(Collectors.toList());
+	@PostMapping("/upload-files/file-category/{categoryName}")
+	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") List<MultipartFile> files, @PathVariable("categoryName") String categoryName) {
+		return files.stream().map(file -> uploadFile(file,categoryName)).collect(Collectors.toList());
 	}
 
-	@GetMapping(DOWNLOAD_FILE + "{fileName}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+	@GetMapping(FILE_URL +"{categorySlug}/"+"{fileName}")
+	@ResponseBody
+	public ResponseEntity<byte[]> downloadFile(@PathVariable("categorySlug") String categorySlug,
+											   @PathVariable("fileName") String fileName, HttpServletRequest request) throws IOException {
 		// Load file as Resource
-		Resource resource = fileService.loadFileAsResource(fileName);
+		Resource resource = fileService.loadFileAsResource(fileName, categorySlug);
 
 		// Try to determine file's content type
 		String contentType = null;
@@ -84,8 +78,9 @@ public class FileController {
 			contentType = "application/octet-stream";
 		}
 
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-				.body(resource);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType(contentType));
+
+		return new ResponseEntity<>(resource.getInputStream().readAllBytes(), headers, HttpStatus.OK);
 	}
 }

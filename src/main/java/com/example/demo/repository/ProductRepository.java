@@ -12,14 +12,15 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
-    @Query(value = "SELECT * FROM product p " +
+    public static final String ALL_PRODUCT_FOUND_BY_CATEGORY_NAME = "SELECT * FROM product p " +
             "WHERE p.product_id IN " +
             "(SELECT product_references_category_id product_id " +
             "FROM category_product cp " +
             "JOIN category c " +
-            "ON cp.product_references_category_id = c.category_id " +
-            "WHERE category_name like %:name%)", nativeQuery = true)
-    public List<Product> getAllProductByCategoryName(@Param("name") String name);
+            "ON cp.category_references_product_id = c.category_id " +
+            "WHERE category_name like :name%)";
 
+    @Query(value = ALL_PRODUCT_FOUND_BY_CATEGORY_NAME, nativeQuery = true)
+    public List<Product> getAllProductByCategoryName(@Param("name") String name);
     List<Product> findByProductNameContaining(String productName);
 }

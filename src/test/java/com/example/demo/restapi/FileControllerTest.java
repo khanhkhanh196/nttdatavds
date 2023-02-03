@@ -1,50 +1,32 @@
 package com.example.demo.restapi;
 
 
-import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
-import com.example.demo.config.BaseConfig;
 import com.example.demo.config.KeyCloakConfig;
-import com.example.demo.restapi.FileController;
-import com.example.demo.service.FileServiceImpl;
-import com.example.demo.service.serviceinterface.FileService;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.OidcKeycloakAccount;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.keycloak.representations.AccessToken;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.io.IOException;
 import java.security.Principal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(FileController.class)
@@ -53,25 +35,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class FileControllerTest extends BaseControllerTest {
     @Autowired
     MockMvc mockMvc;
-
-    @MockBean
-    private FileService fileService;
-
     private MockMultipartFile file;
 
-    private String url = "rest/upload-image";
-    @BeforeEach
-    public void setup() throws IOException {
-        file = new MockMultipartFile("foo", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
+    private static final String categoryName = "Category name";
+    private static final String categorySlug = "category-name";
+    @Before
+    public void setup() {
+        file = new MockMultipartFile("file", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
     }
 
     @Test
     public void uploadFileTest_201() throws Exception {
-        configureSecurityContext("user","admin");
+        configureSecurityContext("admin");
 
-        mockMvc.perform(multipart("/rest/upload-image")
-                        .file("file",file.getBytes())
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/rest/upload-file/file-category/{categoryName}", categoryName)
+                        .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
@@ -80,9 +59,43 @@ public class FileControllerTest extends BaseControllerTest {
     public void uploadFileTest_403() throws Exception {
         configureSecurityContext("khanh","user");
 
-        mockMvc.perform(multipart("/rest/upload-image")
-                        .file("file",file.getBytes())
+        mockMvc.perform(multipart("/rest/upload-file/file-category/{categoryName}", categoryName)
+                        .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void uploadMultipleFileTest() throws Exception {
+        configureSecurityContext("admin");
+        MockMultipartFile file2 = new MockMultipartFile("files", "fooo.txt", MediaType.TEXT_PLAIN_VALUE,
+                "Hello World".getBytes());
+        MockMultipartFile file3 = new MockMultipartFile("files", "foooo.txt", MediaType.TEXT_PLAIN_VALUE,
+                "Hello World".getBytes());
+
+        mockMvc.perform(multipart("/rest/upload-files/file-category/{categoryName}", categoryName)
+                .file(file2)
+                .file(file3)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void downloadFileTestNotFound() throws Exception {
+        configureSecurityContext("khanh","user");
+        String filename = "";
+
+        mockMvc.perform(get("/rest/file/{categorySlug}/{fileName}",categorySlug, filename)
+
+        ).andExpect(status().isNotFound()).andDo(MockMvcResultHandlers.print());
+    }
+    @Test
+    public void downloadFileTest() throws Exception {
+        configureSecurityContext("khanh","user");
+        String filename = "foo.txt";
+
+        mockMvc.perform(get("/rest/file/{categorySlug}/{fileName}",categorySlug, filename)
+
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 }

@@ -10,7 +10,7 @@ public interface ProductService {
 
 	public Product getProduct(int theId);
 
-	public void saveProduct(Product product);
+	public void saveProduct(ProductDTO productDTO);
 
 	public void deleteProduct(int theId);
 
