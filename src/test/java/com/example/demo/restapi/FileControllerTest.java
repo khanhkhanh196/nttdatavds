@@ -3,8 +3,11 @@ package com.example.demo.restapi;
 
 
 import com.example.demo.config.KeyCloakConfig;
+import org.aspectj.lang.annotation.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.adapters.OidcKeycloakAccount;
@@ -38,7 +41,10 @@ public class FileControllerTest {
     @Autowired
     MockMvc mockMvc;
     private MockMultipartFile file;
-    @BeforeEach
+
+    private static final String categoryName = "Category name";
+    private static final String categorySlug = "category-name";
+    @Before
     public void setup() throws IOException {
         file = new MockMultipartFile("file", "foo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
@@ -47,7 +53,8 @@ public class FileControllerTest {
     @Test
     public void uploadFileTest_201() throws Exception {
         configureSecurityContext("admin");
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/rest/upload-image")
+
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/rest/upload-file/file-category/{categoryName}", categoryName)
                         .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
@@ -57,7 +64,7 @@ public class FileControllerTest {
     public void uploadFileTest_403() throws Exception {
         configureSecurityContext("khanh","user");
 
-        mockMvc.perform(multipart("/rest/upload-file")
+        mockMvc.perform(multipart("/rest/upload-file/file-category/{categoryName}", categoryName)
                         .file(file)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
         ).andExpect(status().isForbidden()).andDo(MockMvcResultHandlers.print());
@@ -71,7 +78,7 @@ public class FileControllerTest {
         MockMultipartFile file3 = new MockMultipartFile("files", "foooo.txt", MediaType.TEXT_PLAIN_VALUE,
                 "Hello World".getBytes());
 
-        mockMvc.perform(multipart("/rest/upload-files")
+        mockMvc.perform(multipart("/rest/upload-files/file-category/{categoryName}", categoryName)
                 .file(file2)
                 .file(file3)
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -83,16 +90,16 @@ public class FileControllerTest {
         configureSecurityContext("khanh","user");
         String filename = "";
 
-        mockMvc.perform(get("/rest/download-image/" + filename)
+        mockMvc.perform(get("/rest/file/{categorySlug}/{fileName}",categorySlug, filename)
 
         ).andExpect(status().isNotFound()).andDo(MockMvcResultHandlers.print());
     }
     @Test
     public void downloadFileTest() throws Exception {
         configureSecurityContext("khanh","user");
-        String filename = "June_odd-eyed-cat.jpg";
+        String filename = "foo.txt";
 
-        mockMvc.perform(get("/rest/download-image/" + filename)
+        mockMvc.perform(get("/rest/file/{categorySlug}/{fileName}",categorySlug, filename)
 
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
