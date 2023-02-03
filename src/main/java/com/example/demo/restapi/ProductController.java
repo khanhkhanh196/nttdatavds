@@ -8,6 +8,7 @@ import com.example.demo.service.serviceinterface.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,26 +34,37 @@ public class ProductController {
 	private DTOConverter dtoConverter;
 
 
+//	@GetMapping("/products")
+//	public ResponseEntity<ApiResponse<List<ProductDTO>>> getAllProduct() {
+//		List<Product> allProduct = productService.getAllProduct();
+//		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(allProduct);
+//		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
+//	} //run ok
+
 	@GetMapping("/products")
-	public ResponseEntity<ApiResponse<List<ProductDTO>>> getAllProduct() {
-		List<Product> allProduct = productService.getAllProduct();
-		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(allProduct);
-		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
-	} //run ok
-
-	@GetMapping("/product/categoryName")
-	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductByCategoryName(@RequestParam String categoryName) {
-		List<Product> productList = productService.getProductByCategoryName(categoryName);
-		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(productList);
-		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
-	} // run ok
-
-	@GetMapping("/product/productName")
-	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductsByProductName(@RequestParam String productName) {
-		List<Product> productList = productService.getProductsByProductName(productName);
-		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(productList);
+	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductByCategoryName(@RequestParam(required = false) String categoryName,
+																				  @RequestParam(required = false) String productName) {
+		List<Product> productList = null;
+		List<ProductDTO> productDTOList = null;
+		if(ObjectUtils.isEmpty(categoryName)) {
+			productList = productService.getProductsByProductName(productName);
+		}
+		else if(ObjectUtils.isEmpty(productName)) {
+			productList = productService.getProductByCategoryName(categoryName);
+		}
+		else if(ObjectUtils.isEmpty(categoryName) && ObjectUtils.isEmpty(productName)) {
+			productList = productService.getAllProduct();
+		}
+			productDTOList = dtoConverter.convertProductListToProductDTOList(productList);
 		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
 	} // run ok
+
+//	@GetMapping("/products")
+//	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductsByProductName(@RequestParam String productName) {
+//		List<Product> productList = productService.getProductsByProductName(productName);
+//		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(productList);
+//		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
+//	} // run ok
 
 	@GetMapping("/products/{id}")
 	public ProductDTO getSingleProduct(@PathVariable int id) {
@@ -90,7 +102,7 @@ public class ProductController {
 		}
 	} // run ok
 
-	@GetMapping("files/ImageURL/productId")
+	@GetMapping("files/ImageURL")
 	public List<String> getImageURLByProductId(@RequestParam int productId) {
 		return fileService.getImageURLByProductId(productId);
 	}

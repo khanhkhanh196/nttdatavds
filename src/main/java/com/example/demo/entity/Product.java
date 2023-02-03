@@ -61,18 +61,16 @@ public class Product {
 		ProductDTO dto = modelMapper.map(this, ProductDTO.class);
 		List<Integer> categoryIds = new ArrayList<>();
 		List<Integer> fileIds = new ArrayList<>();
-		if (this != null) {
-			for (Category category :
-				 categoriesSet) {
-				categoryIds.add(category.getCategoryId());
-			}
-			for (File file :
-					files) {
-				fileIds.add(file.getFileId());
-			}
-			dto.setCategoriesIds(categoryIds);
-			dto.setFilesIds(fileIds);
+		for (Category category :
+			 categoriesSet) {
+			categoryIds.add(category.getCategoryId());
 		}
+		for (File file :
+				files) {
+			fileIds.add(file.getFileId());
+		}
+		dto.setCategoriesIds(categoryIds);
+		dto.setFilesIds(fileIds);
 		return dto;
 	}
 
