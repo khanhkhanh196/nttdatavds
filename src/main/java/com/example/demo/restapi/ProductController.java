@@ -33,38 +33,24 @@ public class ProductController {
 	@Autowired
 	private DTOConverter dtoConverter;
 
-
-//	@GetMapping("/products")
-//	public ResponseEntity<ApiResponse<List<ProductDTO>>> getAllProduct() {
-//		List<Product> allProduct = productService.getAllProduct();
-//		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(allProduct);
-//		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
-//	} //run ok
-
 	@GetMapping("/products")
 	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductByCategoryName(@RequestParam(required = false) String categoryName,
 																				  @RequestParam(required = false) String productName) {
 		List<Product> productList = null;
 		List<ProductDTO> productDTOList = null;
-		if(ObjectUtils.isEmpty(categoryName)) {
+		if(!ObjectUtils.isEmpty(productName)) {
 			productList = productService.getProductsByProductName(productName);
 		}
-		else if(ObjectUtils.isEmpty(productName)) {
+		else if(!ObjectUtils.isEmpty(categoryName)) {
 			productList = productService.getProductByCategoryName(categoryName);
 		}
-		else if(ObjectUtils.isEmpty(categoryName) && ObjectUtils.isEmpty(productName)) {
+		else {
 			productList = productService.getAllProduct();
 		}
 			productDTOList = dtoConverter.convertProductListToProductDTOList(productList);
 		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
 	} // run ok
 
-//	@GetMapping("/products")
-//	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductsByProductName(@RequestParam String productName) {
-//		List<Product> productList = productService.getProductsByProductName(productName);
-//		List<ProductDTO> productDTOList = dtoConverter.convertProductListToProductDTOList(productList);
-//		return ResponseEntity.ok(new ApiResponse<>("success", productDTOList, null));
-//	} // run ok
 
 	@GetMapping("/products/{id}")
 	public ProductDTO getSingleProduct(@PathVariable int id) {
@@ -87,9 +73,9 @@ public class ProductController {
 	} //run ok
 
 	@PostMapping("/products")
-	public ResponseEntity<Product> addNewProduct(@RequestBody ProductDTO productDTO) {
+	public ResponseEntity<ApiResponse<ProductDTO>> addNewProduct(@RequestBody ProductDTO productDTO) {
 		productService.saveProduct(productDTO);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return ResponseEntity.ok(new ApiResponse<>("created", productDTO, null));
 	} // run ok
 
 	@DeleteMapping("/products/{id}")
