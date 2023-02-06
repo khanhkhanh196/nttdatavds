@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
@@ -22,6 +23,8 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 @Import(KeycloakSpringBootConfigResolver.class)
 public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDetailsService userDetailsService;
     /**
      * Registers the KeycloakAuthenticationProvider with the authentication manager.
      */
@@ -29,6 +32,7 @@ public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         KeycloakAuthenticationProvider provider = new KeycloakAuthenticationProvider();
         provider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+        auth.userDetailsService(userDetailsService);
         auth.authenticationProvider(provider);
     }
 
@@ -53,9 +57,11 @@ public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
          http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST).hasRole(Role.ADMIN)
-                .antMatchers(HttpMethod.PUT).hasRole(Role.ADMIN)
-                .antMatchers(HttpMethod.DELETE).hasRole(Role.ADMIN)
+//                 .antMatchers("/oauth2/authorization/**").permitAll()
+//                 .antMatchers(HttpMethod.GET).hasRole(Role.USER)
+//                .antMatchers(HttpMethod.POST).hasRole(Role.ADMIN)
+//                .antMatchers(HttpMethod.PUT).hasRole(Role.ADMIN)
+//                .antMatchers(HttpMethod.DELETE).hasRole(Role.ADMIN)
                 .anyRequest().permitAll();
 
     }

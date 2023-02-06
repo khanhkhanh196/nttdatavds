@@ -1,5 +1,11 @@
 
+create table `account` (
+`id` int not null auto_increment,
+`user_name` nvarchar(100),
+`password` nvarchar(100),
 
+primary key (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 create table `product` (
 `product_id` int not null auto_increment,
