@@ -1,8 +1,6 @@
 package com.example.demo.restapi;
 
 import java.io.IOException;
-import java.security.Timestamp;
-import java.sql.Time;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -13,6 +11,7 @@ import com.example.demo.common.Constants;
 import com.example.demo.entity.Category;
 import com.example.demo.payload.response.PayloadResponse;
 import com.example.demo.service.serviceinterface.CategoryService;
+import com.example.demo.util.BaseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +45,14 @@ public class FileController {
 	public PayloadResponse<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("categoryName") String categoryName) {
 		UploadFileResponse uploadFileResponse = saveFile(file, categoryName);
 
-		return new PayloadResponse<UploadFileResponse>(HttpStatus.CREATED.value(),"success", 123,uploadFileResponse);
+		return new PayloadResponse<UploadFileResponse>(HttpStatus.CREATED.value(), Constants.ResponseMessage.SUCCESS, BaseUtils.currentTimestamp(),uploadFileResponse);
 	}
 
 	@PostMapping("/upload-files/file-category/{categoryName}")
 	public PayloadResponse<List<UploadFileResponse>> uploadMultipleFiles(@RequestParam("files") List<MultipartFile> files, @PathVariable("categoryName") String categoryName) {
 		List<UploadFileResponse> uploadedFiles = files.stream().map(file -> saveFile(file, categoryName)).collect(Collectors.toList());
 
-		return new PayloadResponse<List<UploadFileResponse>>(HttpStatus.CREATED.value(),"success", 123,uploadedFiles);
+		return new PayloadResponse<List<UploadFileResponse>>(HttpStatus.CREATED.value(), Constants.ResponseMessage.SUCCESS, BaseUtils.currentTimestamp(),uploadedFiles);
 	}
 
 	public UploadFileResponse saveFile(MultipartFile file, String categoryName) {
