@@ -6,6 +6,7 @@ import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
@@ -21,7 +22,15 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @KeycloakConfiguration
 @EnableGlobalMethodSecurity(jsr250Enabled = true)
 @Import(KeycloakSpringBootConfigResolver.class)
+//@ConditionalOnProperty(name = "security.config.use-keycloak", havingValue = "true", matchIfMissing = true)
 public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
+
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+    };
+
     /**
      * Registers the KeycloakAuthenticationProvider with the authentication manager.
      */
@@ -56,6 +65,7 @@ public class KeyCloakConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST).hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.PUT).hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.DELETE).hasRole(Role.ADMIN)
+                 .antMatchers(SWAGGER_WHITELIST).permitAll()
                 .anyRequest().permitAll();
 
     }
