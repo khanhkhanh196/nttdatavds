@@ -2,11 +2,10 @@ package com.example.demo.util;
 
 import java.sql.Timestamp;
 import java.text.Normalizer;
-import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-public class StringUtils {
+public class BaseUtils {
     private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
     private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
     public static String toSlug(String input) {

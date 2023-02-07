@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.entity.Category;
-import com.example.demo.util.StringUtils;
+import com.example.demo.util.BaseUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class CategoryDTO {
     public Category convertToEntity() {
         ModelMapper modelMapper = new ModelMapper();
         Category category = modelMapper.map(this, Category.class);
-        String slug = StringUtils.toSlug(this.categoryName);
+        String slug = BaseUtils.toSlug(this.categoryName);
         category.setSlug(slug);
         return category;
     }

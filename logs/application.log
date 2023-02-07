@@ -657,3 +657,50 @@ java.io.UncheckedIOException: Cannot delete C:\Users\ntdung2\AppData\Local\Temp\
 Caused by: java.io.IOException: Cannot delete C:\Users\ntdung2\AppData\Local\Temp\tomcat.8082.2695195211730250289\work\Tomcat\localhost\ROOT\upload_3a417e11_a27d_458e_a711_88d8d5c00895_00000003.tmp
 	... 14 common frames omitted
 
+2023-02-07 15:59:06.678  INFO 10604 --- [main] com.example.demo.DemoApplication         : Starting DemoApplication using Java 11.0.17 on WS0377 with PID 10604 (D:\Demo\nttdatavds\target\classes started by ntdung2 in D:\Demo\nttdatavds)
+2023-02-07 15:59:06.685  INFO 10604 --- [main] com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+2023-02-07 15:59:08.529  INFO 10604 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-07 15:59:08.694  INFO 10604 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 128 ms. Found 3 JPA repository interfaces.
+2023-02-07 15:59:08.699  INFO 10604 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-02-07 15:59:08.713  INFO 10604 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 1 JPA repository interfaces.
+2023-02-07 15:59:11.511  INFO 10604 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2023-02-07 15:59:11.539  INFO 10604 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-02-07 15:59:11.539  INFO 10604 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.70]
+2023-02-07 15:59:11.926  INFO 10604 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-02-07 15:59:11.927  INFO 10604 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5084 ms
+2023-02-07 15:59:12.248  WARN 10604 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-02-07 15:59:12.474  INFO 10604 --- [main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 8.5.13 by Redgate
+2023-02-07 15:59:12.476  INFO 10604 --- [main] o.f.c.internal.license.VersionPrinter    : See what's new here: https://flywaydb.org/documentation/learnmore/releaseNotes#8.5.13
+2023-02-07 15:59:12.477  INFO 10604 --- [main] o.f.c.internal.license.VersionPrinter    : 
+2023-02-07 15:59:12.505  INFO 10604 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-02-07 15:59:13.098  INFO 10604 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-02-07 15:59:13.161  INFO 10604 --- [main] o.f.c.i.database.base.BaseDatabaseType   : Database: jdbc:mysql://localhost:3306/hb-product (MySQL 8.0)
+2023-02-07 15:59:13.339  INFO 10604 --- [main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.122s)
+2023-02-07 15:59:13.364  INFO 10604 --- [main] o.f.core.internal.command.DbMigrate      : Current version of schema `hb-product`: 1.0
+2023-02-07 15:59:13.366  INFO 10604 --- [main] o.f.core.internal.command.DbMigrate      : Schema `hb-product` is up to date. No migration necessary.
+2023-02-07 15:59:13.515  INFO 10604 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: db1]
+2023-02-07 15:59:13.721  INFO 10604 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.14.Final
+2023-02-07 15:59:14.125  INFO 10604 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-02-07 15:59:14.624  INFO 10604 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-02-07 15:59:16.009  INFO 10604 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-07 15:59:16.030  INFO 10604 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'db1'
+2023-02-07 15:59:16.314  INFO 10604 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: db2]
+2023-02-07 15:59:16.476  INFO 10604 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2023-02-07 15:59:16.509  INFO 10604 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2023-02-07 15:59:16.510  INFO 10604 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2023-02-07 15:59:16.710  INFO 10604 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-02-07 15:59:16.711  INFO 10604 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'db2'
+2023-02-07 15:59:20.444  INFO 10604 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@569026df, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7896e96a, org.springframework.security.web.context.SecurityContextPersistenceFilter@4615bc00, org.springframework.security.web.header.HeaderWriterFilter@56728f48, org.keycloak.adapters.springsecurity.filter.KeycloakPreAuthActionsFilter@1a712f12, org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticationProcessingFilter@3085befb, org.springframework.security.web.authentication.logout.LogoutFilter@643f8ebe, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@569b3009, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6e140753, org.keycloak.adapters.springsecurity.filter.KeycloakSecurityContextRequestFilter@7be6dabb, org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticatedActionsFilter@68fc636a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4e451f9a, org.springframework.security.web.session.SessionManagementFilter@fdfd984, org.springframework.security.web.access.ExceptionTranslationFilter@568e2d65, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@430dbcb0]
+2023-02-07 15:59:21.165  INFO 10604 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2023-02-07 15:59:21.205  INFO 10604 --- [main] com.example.demo.DemoApplication         : Started DemoApplication in 15.696 seconds (JVM running for 17.032)
+2023-02-07 15:59:57.100  INFO 10604 --- [http-nio-8082-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-02-07 15:59:57.105  INFO 10604 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-02-07 15:59:57.108  INFO 10604 --- [http-nio-8082-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2023-02-07 15:59:57.548  INFO 10604 --- [http-nio-8082-exec-2] o.keycloak.adapters.KeycloakDeployment   : Loaded URLs from http://localhost:8080/realms/ProductManagement/.well-known/openid-configuration
+2023-02-07 15:59:58.091  WARN 10604 --- [http-nio-8082-exec-2] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [452] milliseconds.
+2023-02-07 16:00:29.162  INFO 10604 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'db2'
+2023-02-07 16:00:29.165  INFO 10604 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2023-02-07 16:00:29.230  INFO 10604 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2023-02-07 16:00:29.231  INFO 10604 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'db1'
+2023-02-07 16:00:29.232  INFO 10604 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-02-07 16:00:29.250  INFO 10604 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
