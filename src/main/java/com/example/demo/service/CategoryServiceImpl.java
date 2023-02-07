@@ -2,12 +2,15 @@ package com.example.demo.service;
 
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.util.CategoryExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Category;
 import com.example.demo.service.serviceinterface.CategoryService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -63,6 +66,23 @@ public class CategoryServiceImpl implements CategoryService {
 			return 1;
 		}).orElseThrow(() -> new NotFoundException("Not found category by id"));
 		return 1;
+	}
+
+	@Override
+	public void importExcel(MultipartFile file) {
+		try {
+			List<Category> categories = CategoryExcelUtils.excelToCategories(file.getInputStream());
+			categoryRepository.saveAll(categories);
+		} catch (IOException e) {
+			throw new RuntimeException("Fail to store excel data: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public ByteArrayInputStream exportExcel() {
+		List<Category> categories = categoryRepository.findAll();
+		ByteArrayInputStream in = CategoryExcelUtils.categoriesToExcel(categories);
+		return in;
 	}
 
 }
