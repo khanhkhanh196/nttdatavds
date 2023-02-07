@@ -7,10 +7,7 @@ import javax.persistence.*;
 
 import com.example.demo.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 
 @Entity
@@ -18,6 +15,8 @@ import org.modelmapper.ModelMapper;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
