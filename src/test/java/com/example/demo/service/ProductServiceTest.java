@@ -7,6 +7,7 @@ import com.example.demo.entity.Category;
 import com.example.demo.entity.File;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.restapi.ProductController;
 import com.example.demo.service.serviceinterface.ProductService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -48,10 +49,11 @@ class ProductServiceTest {
 
     Product PRODUCT_RECORD;
     List<Product> PRODUCT_LIST = new ArrayList<>();
+    ProductDTO PRODUCT_DTO;
 
     @BeforeEach
     void setUp() {
-        PRODUCT_RECORD = new Product(PRODUCT_ID, NAME, SHORT_DESC, STOCK, SOLD, PRICE, null, null);
+        PRODUCT_RECORD = new Product(PRODUCT_ID, NAME, SHORT_DESC, STOCK, SOLD, PRICE, new ArrayList<>(), new ArrayList<>());
         PRODUCT_LIST.add(PRODUCT_RECORD);
     }
 
@@ -63,32 +65,25 @@ class ProductServiceTest {
     void getAllProduct() {
         Mockito.when(productRepository.findAll()).thenReturn(PRODUCT_LIST);
         List<Product> result = productServiceTest.getAllProduct();
-        Assertions.assertSame(result, PRODUCT_LIST);
-
+        Assertions.assertEquals(result.size(), PRODUCT_LIST.size());
     }
 
     @Test
     void getProductByProductId() {
-
-    }
-
-    @Test
-    void saveProduct() {
-        //given
-//        Product product = new Product(PRODUCT_ID, NAME, SHORT_DESC, STOCK, SOLD, PRICE, CATEGORIES_SET, FILES);
-//        productServiceTest.saveProduct(product);
-//
-//        //when
-//        Optional<Product> expectedProduct = productTest.findById(PRODUCT_ID);
-
-        //then
-    }
-
-    @Test
-    void deleteProduct() {
+        Mockito.when(productRepository.findById(Mockito.any(Integer.class))).thenReturn(Optional.of(PRODUCT_RECORD));
+        Product result = productServiceTest.getProduct(PRODUCT_RECORD.getProductId());
+        Assertions.assertEquals(result.getProductId(), PRODUCT_ID);
+        Assertions.assertEquals(result.getProductName(), NAME);
+        Assertions.assertEquals(result.getShortDesc(), SHORT_DESC);
+        Assertions.assertEquals(result.getStock(), STOCK);
+        Assertions.assertEquals(result.getSold(), SOLD);
+        Assertions.assertEquals(result.getPrice(), PRICE);
     }
 
     @Test
     void getProductByCategoryName() {
+        Mockito.when(productRepository.getAllProductByCategoryName(Mockito.any(String.class))).thenReturn(PRODUCT_LIST);
+        List<Product> result = productServiceTest.getProductByCategoryName("");
+        Assertions.assertEquals(result.size(), PRODUCT_LIST.size());
     }
 }
