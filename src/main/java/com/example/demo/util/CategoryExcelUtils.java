@@ -60,7 +60,7 @@ public class CategoryExcelUtils {
                     if (cellIdx == 0) {
                         category.setCategoryName(currentCell.getStringCellValue());
                     }
-                    String slug = StringUtils.toSlug(currentCell.getStringCellValue());
+                    String slug = BaseUtils.toSlug(currentCell.getStringCellValue());
                     category.setSlug(slug);
 
                     cellIdx++;
