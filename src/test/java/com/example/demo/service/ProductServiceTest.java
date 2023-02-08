@@ -7,7 +7,6 @@ import com.example.demo.entity.Category;
 import com.example.demo.entity.File;
 import com.example.demo.entity.Product;
 import com.example.demo.repository.ProductRepository;
-import com.example.demo.restapi.ProductController;
 import com.example.demo.service.serviceinterface.ProductService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,13 +17,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -86,4 +84,19 @@ class ProductServiceTest {
         List<Product> result = productServiceTest.getProductByCategoryName("");
         Assertions.assertEquals(result.size(), PRODUCT_LIST.size());
     }
+
+    @Test
+    void getProductByProductName() {
+        Mockito.when(productRepository.findByProductNameContaining(NAME)).thenReturn(PRODUCT_LIST);
+        List<Product> result = productServiceTest.getProductsByProductName(NAME);
+        Assertions.assertEquals(result.size(), 1);
+    }
+
+    @Test
+    void deleteProductById() {
+        doNothing().when(productRepository).deleteById(PRODUCT_ID);
+        productServiceTest.deleteProduct(PRODUCT_ID);
+        verify(productRepository,times(1)).deleteById(PRODUCT_ID);
+    }
+
 }

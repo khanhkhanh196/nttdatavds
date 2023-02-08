@@ -6,7 +6,6 @@ import com.example.demo.dto.ApiResponse;
 import com.example.demo.dto.converter.DTOConverter;
 import com.example.demo.service.serviceinterface.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
@@ -34,8 +33,8 @@ public class ProductController {
 	private DTOConverter dtoConverter;
 
 	@GetMapping("/products")
-	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductByCategoryName(@RequestParam(required = false) String categoryName,
-																				  @RequestParam(required = false) String productName) {
+	public ResponseEntity<ApiResponse<List<ProductDTO>>> getProductByParam(@RequestParam(required = false) String categoryName,
+																		   @RequestParam(required = false) String productName) {
 		List<Product> productList = null;
 		List<ProductDTO> productDTOList = null;
 		if(!ObjectUtils.isEmpty(productName)) {
