@@ -3,6 +3,7 @@ package com.example.demo.restapi;
 import com.example.demo.dto.CategoryDTO;
 import com.example.demo.payload.response.PayloadResponse;
 import com.example.demo.util.CategoryExcelUtils;
+import com.example.demo.util.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -64,7 +65,7 @@ public class CategoryController {
 	@PostMapping("/import")
 	public ResponseEntity<PayloadResponse<CategoryDTO>> importExcel(@RequestParam("file") MultipartFile file) {
 		PayloadResponse<CategoryDTO> payloadResponse;
-		if (CategoryExcelUtils.hasExcelFormat(file)) {
+		if (ExcelUtils.hasExcelFormat(file)) {
 			try {
 				categoryService.importExcel(file);
 				payloadResponse = new PayloadResponse<>(200, "File " + file.getOriginalFilename() + " imported", System.currentTimeMillis());

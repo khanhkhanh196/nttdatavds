@@ -18,7 +18,7 @@ import org.modelmapper.ModelMapper;
 @Getter
 @Setter
 @ToString
-public class Product {
+public class Product extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "product_id")

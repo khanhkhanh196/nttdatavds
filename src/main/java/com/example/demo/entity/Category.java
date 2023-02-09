@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name="category")
 @Data
 @ToString
-public class Category {
+public class Category extends BaseEntity{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="category_id")

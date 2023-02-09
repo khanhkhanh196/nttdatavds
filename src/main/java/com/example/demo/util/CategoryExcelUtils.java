@@ -17,18 +17,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 public class CategoryExcelUtils {
-    public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     static String[] HEADERs = { "Id", "Name", "Slug" };
     static String SHEET = "Categories";
-
-    public static boolean hasExcelFormat(MultipartFile file) {
-
-        if (!TYPE.equals(file.getContentType())) {
-            return false;
-        }
-
-        return true;
-    }
 
     public static List<Category> excelToCategories(InputStream is) {
         try {

@@ -5,6 +5,7 @@ import com.example.demo.entity.File;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 public interface FileService {
@@ -16,4 +17,5 @@ public interface FileService {
 	public List<String> getImageURLByProductId(int productId);
 
 	public File getFileById(int id);
+	public ByteArrayInputStream exportExcel();
 }

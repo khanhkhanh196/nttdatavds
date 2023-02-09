@@ -15,6 +15,7 @@ import com.example.demo.util.BaseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.util.StringUtils;
@@ -92,5 +93,16 @@ public class FileController {
 		headers.setContentType(MediaType.parseMediaType(contentType));
 
 		return new ResponseEntity<>(resource.getInputStream().readAllBytes(), headers, HttpStatus.OK);
+	}
+
+	@GetMapping(FILE_URL + "export-excel")
+	public ResponseEntity<Resource> exportExcelFile() {
+		String filename = "Files.xlsx";
+		InputStreamResource bytes = new InputStreamResource(fileService.exportExcel());
+
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+				.contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+				.body(bytes);
 	}
 }

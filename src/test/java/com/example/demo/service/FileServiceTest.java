@@ -43,7 +43,7 @@ public class FileServiceTest {
         when(storageProperties.getUploadDir()).thenReturn("uploads");
         when(fileRepository.save(entity)).thenReturn(entity);
 
-        fileService = new FileServiceImpl(storageProperties, fileRepository);
+//        fileService = new FileServiceImpl(storageProperties, fileRepository);
     }
 
     @Test

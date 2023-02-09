@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @AllArgsConstructor
-public class File {
+public class File extends BaseEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "file_id")

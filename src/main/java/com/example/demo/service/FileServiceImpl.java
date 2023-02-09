@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
@@ -10,6 +11,7 @@ import com.example.demo.entity.Category;
 import com.example.demo.exception.FileStorageException;
 import com.example.demo.exception.NotFoundException;
 import com.example.demo.repository.FileRepository;
+import com.example.demo.util.FileExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,6 +29,7 @@ import java.util.List;
 public class FileServiceImpl implements FileService {
 	private final Path fileStorageLocation;
 	private FileRepository fileRepository;
+
 	@Autowired
 	public FileServiceImpl(FileStorageProperties fileStorageProperties, FileRepository fileRepository) {
 		this.fileRepository = fileRepository;
@@ -94,4 +97,8 @@ public class FileServiceImpl implements FileService {
 		return fileRepository.findById(id).orElseThrow(()-> new NotFoundException());
 	}
 
+	public ByteArrayInputStream exportExcel() {
+		List<File> files = fileRepository.findAll();
+		return FileExcelUtils.filesToExcel(files);
+	}
 }
